@@ -1,0 +1,22 @@
+layout {
+    tab name="Debug" focus=true {
+        pane split_direction="horizontal" {
+            pane size="50%" name="Code" command="nvim"
+            pane split_direction="vertical" size="50%" {
+                pane name="Debug" size="60%"
+                pane name="Console" size="40%"
+            }
+        }
+    }
+    
+    tab name="Logs" {
+        pane split_direction="vertical" {
+            pane name="App Logs" command="tail" {
+                args "-f" "/var/log/app.log"
+            }
+            pane name="System Logs" command="journalctl" {
+                args "-f"
+            }
+        }
+    }
+}

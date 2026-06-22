@@ -1,0 +1,69 @@
+{
+    "label" : "lock",
+    "action" : "swaylock -f -c 000000 &",
+    "text" : "锁屏 swaylock -f -c 000000",
+    "keybind" : "l"
+}
+
+{
+    "label" : "suspend",
+    "action" : "systemctl suspend",
+    "text" : "睡眠 systemctl suspend",
+    "keybind" : "s"
+}
+
+{
+    "label" : "logout",
+    "action" : "niri msg action quit",
+    "text" : "注销 niri msg action quit",
+    "keybind" : "m"
+}
+
+{
+    "label" : "reload",
+    "action" : "niri msg reload-config",
+    "text" : "重载配置 niri msg reload-config",
+    "keybind" : "r"
+}
+
+{
+    "label" : "soft-reboot",
+    "action" : "systemctl soft-reboot",
+    "text" : "软重启 systemctl soft-reboot",
+    "keybind" : "f"
+}
+
+{
+    "label" : "hybrid-sleep",
+    "action" : "systemctl hybrid-sleep",
+    "text" : "混合睡眠 systemctl hybrid-sleep",
+    "keybind" : "y"
+}
+
+{
+    "label" : "hibernate",
+    "action" : "systemctl hibernate",
+    "text" : "休眠 systemctl hibernate",
+    "keybind" : "h"
+}
+
+{
+    "label" : "halt",
+    "action" : "systemctl halt",
+    "text" : "停止 systemctl halt",
+    "keybind" : "a"
+}
+
+{
+    "label" : "reboot",
+    "action" : "reboot",
+    "text" : "重启 reboot",
+    "keybind" : "b"
+}
+
+{
+    "label" : "shutdown",
+    "action" : "shutdown -h now",
+    "text" : "关机 shutdown -h now",
+    "keybind" : "d"
+}

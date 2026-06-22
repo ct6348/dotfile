@@ -1,0 +1,38 @@
+config:
+  core.https_address: 0.0.0.0:8443 # 标准端口，监听所有接口，生产环境应配合防火墙/SSL
+  images.auto_update_interval: 6 # 默认合理值，无需修改
+# --- 存储池 (Storage Pools) ---
+# 系统池：使用 Btrfs 驱动，挂载到系统根目录（推荐使用独立分区或 LVM 逻辑卷）
+storage_pools:
+  - name: data # 标准名称：data 代表系统容器根文件系统
+    driver: btrfs
+    config:
+      source: /var/lib/incus/pools # ✅ 关键修改：替换为您的系统 Btrfs 分区设备路径
+      # 如果使用 LVM，可为：source: /dev/vg0/lv_btrfs
+      # source.wipe: false # 通常不设，除非您确定要格式化已有分区
+# --- 存储卷 (Storage Volumes) ---
+# 为 data 池创建一个自定义卷，用于数据库或应用数据（可选，但推荐）
+storage_volumes:
+  - name: data-vol
+    pool: data
+# --- 网络 (Networks) ---
+networks:
+  - name: incusbr0 # 标准名称：incusbr0 是 Incus 默认桥接名称
+    type: bridge
+    config:
+      ipv4.address: auto # 自动分配 10.x.x.1/24 子网，最佳实践
+      ipv6.address: none # 禁用 IPv6 以简化配置；如需启用，改为 auto
+# --- 配置文件 (Profiles) ---
+profiles:
+  - name: default # 标准名称：default 必须存在
+    description: "Default profile for system containers"
+    devices:
+      root:
+        path: /
+        pool: data # ✅ 标准化：使用 data 池作为根文件系统
+        type: disk
+      eth0:
+        name: eth0
+        nictype: bridged
+        parent: incusbr0 # 使用标准桥接名称
+        type: nic

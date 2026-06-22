@@ -1,0 +1,383 @@
+/* ============================================================
+ * Waybar v0.15.0 — Tokyo Night Storm 赛博深蓝主题
+ * 配色: https://github.com/folke/tokyonight.nvim
+ * 字体: Maple Mono NF CN 12px
+ * 特点: 透明毛玻璃 + 霓虹发光 + 居中时钟
+ * ============================================================ */
+
+@define-color bg          rgba(26, 27, 38, 0.75);
+@define-color bg2         rgba(36, 40, 59, 0.85);
+@define-color fg          #c0caf5;
+@define-color fg_dim      #565f89;
+@define-color blue        #7dcfff;
+@define-color cyan        #b4f9f8;
+@define-color green       #9ece6a;
+@define-color orange      #ff9e64;
+@define-color purple      #bb9af7;
+@define-color red         #f7768e;
+@define-color teal        #73daca;
+@define-color yellow      #e0af68;
+@define-color blue0       #3b4261;
+@define-color blue1       #565f89;
+
+/* ---------- 顶层 ---------- */
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "Maple Mono NF CN", "Maple Mono", "Noto Sans CJK SC", sans-serif;
+    font-size: 12px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+    color: @fg;
+    transition: background-color 0.3s ease;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+/* ---------- 毛玻璃效果 ---------- */
+window#waybar > box {
+    background: @bg;
+    border-bottom: 1px solid alpha(@purple, 0.2);
+    padding: 0 8px;
+}
+
+/* ---------- 统一模块样式 ---------- */
+.modules-left > widget,
+.modules-center > widget,
+.modules-right > widget {
+    margin: 2px 0;
+}
+
+/* ---------- 霓虹发光模块基类 ---------- */
+#workspaces,
+#taskbar,
+#tray,
+#network,
+#bluetooth,
+#pulseaudio,
+#backlight,
+#temperature,
+#cpu,
+#memory,
+#disk,
+#battery,
+#clock,
+#custom-notification,
+#custom-power {
+    background: @bg2;
+    border: 1px solid alpha(@blue, 0.15);
+    border-radius: 8px;
+    padding: 0 7px;
+    margin: 1px 1px;
+    transition: all 0.2s ease;
+}
+
+#workspaces:hover,
+#taskbar:hover,
+#network:hover,
+#bluetooth:hover,
+#pulseaudio:hover,
+#backlight:hover,
+#temperature:hover,
+#cpu:hover,
+#memory:hover,
+#disk:hover,
+#battery:hover,
+#clock:hover,
+#custom-notification:hover,
+#custom-power:hover {
+    border-color: alpha(@purple, 0.5);
+    box-shadow: 0 0 8px alpha(@purple, 0.25);
+}
+
+/* ---------- 工作区 ---------- */
+#workspaces {
+    padding: 0 4px;
+    border-color: alpha(@blue, 0.2);
+}
+
+#workspaces button {
+    background: transparent;
+    color: @fg_dim;
+    border: none;
+    border-radius: 6px;
+    padding: 0 5px;
+    margin: 1px 1px;
+    min-width: 18px;
+}
+
+#workspaces button.active {
+    color: @fg;
+    background: alpha(@blue, 0.2);
+    border: 1px solid alpha(@blue, 0.4);
+    box-shadow: 0 0 6px alpha(@blue, 0.3);
+}
+
+#workspaces button.urgent {
+    color: @red;
+    background: alpha(@red, 0.15);
+    border: 1px solid alpha(@red, 0.3);
+    box-shadow: 0 0 6px alpha(@red, 0.25);
+}
+
+#workspaces button:hover {
+    color: @fg;
+    background: alpha(@purple, 0.15);
+}
+
+/* ---------- 任务栏 ---------- */
+#taskbar {
+    padding: 0 4px;
+    border-color: alpha(@blue, 0.2);
+}
+
+#taskbar button {
+    background: transparent;
+    color: @fg_dim;
+    border: none;
+    border-radius: 6px;
+    padding: 0 5px;
+    margin: 1px 1px;
+}
+
+#taskbar button.active {
+    color: @fg;
+    background: alpha(@blue, 0.2);
+    border: 1px solid alpha(@blue, 0.4);
+    box-shadow: 0 0 6px alpha(@blue, 0.3);
+}
+
+#taskbar button:hover {
+    color: @fg;
+    background: alpha(@purple, 0.15);
+}
+
+/* ---------- 窗口标题 ---------- */
+#window {
+    padding: 0 7px;
+    border-color: alpha(@purple, 0.2);
+    color: @fg_dim;
+}
+
+#window:hover {
+    border-color: alpha(@purple, 0.5);
+    box-shadow: 0 0 8px alpha(@purple, 0.25);
+}
+
+/* ---------- 系统托盘 ---------- */
+#tray {
+    background: transparent;
+    border: none;
+    padding: 0 4px;
+}
+
+/* ---------- 网络 ---------- */
+#network {
+    color: @teal;
+    border-color: alpha(@teal, 0.25);
+}
+
+#network.disconnected {
+    color: @red;
+    border-color: alpha(@red, 0.3);
+}
+
+#network:hover {
+    border-color: alpha(@teal, 0.5);
+    box-shadow: 0 0 8px alpha(@teal, 0.25);
+}
+
+/* ---------- 蓝牙 ---------- */
+#bluetooth {
+    color: @blue;
+    border-color: alpha(@blue, 0.25);
+}
+
+#bluetooth.disabled {
+    color: @fg_dim;
+    border-color: alpha(@fg_dim, 0.2);
+}
+
+#bluetooth:hover {
+    border-color: alpha(@blue, 0.5);
+    box-shadow: 0 0 8px alpha(@blue, 0.25);
+}
+
+/* ---------- 音频 ---------- */
+#pulseaudio {
+    color: @green;
+    border-color: alpha(@green, 0.25);
+}
+
+#pulseaudio.muted {
+    color: @red;
+    border-color: alpha(@red, 0.3);
+}
+
+#pulseaudio:hover {
+    border-color: alpha(@green, 0.5);
+    box-shadow: 0 0 8px alpha(@green, 0.25);
+}
+
+/* ---------- 亮度 ---------- */
+#backlight {
+    color: @yellow;
+    border-color: alpha(@yellow, 0.25);
+}
+
+#backlight:hover {
+    border-color: alpha(@yellow, 0.5);
+    box-shadow: 0 0 8px alpha(@yellow, 0.25);
+}
+
+/* ---------- 温度 ---------- */
+#temperature {
+    color: @orange;
+    border-color: alpha(@orange, 0.25);
+}
+
+#temperature.critical {
+    color: @red;
+    border-color: alpha(@red, 0.4);
+    box-shadow: 0 0 8px alpha(@red, 0.3);
+}
+
+#temperature:hover {
+    border-color: alpha(@orange, 0.5);
+    box-shadow: 0 0 8px alpha(@orange, 0.25);
+}
+
+/* ---------- CPU ---------- */
+#cpu {
+    color: @cyan;
+    border-color: alpha(@cyan, 0.25);
+}
+
+#cpu:hover {
+    border-color: alpha(@cyan, 0.5);
+    box-shadow: 0 0 8px alpha(@cyan, 0.25);
+}
+
+/* ---------- 内存 ---------- */
+#memory {
+    color: @blue;
+    border-color: alpha(@blue, 0.25);
+}
+
+#memory.warning {
+    color: @yellow;
+    border-color: alpha(@yellow, 0.3);
+}
+
+#memory.critical {
+    color: @red;
+    border-color: alpha(@red, 0.4);
+}
+
+#memory:hover {
+    border-color: alpha(@blue, 0.5);
+    box-shadow: 0 0 8px alpha(@blue, 0.25);
+}
+
+/* ---------- 磁盘 ---------- */
+#disk {
+    color: @teal;
+    border-color: alpha(@teal, 0.25);
+}
+
+#disk:hover {
+    border-color: alpha(@teal, 0.5);
+    box-shadow: 0 0 8px alpha(@teal, 0.25);
+}
+
+/* ---------- 电池 ---------- */
+#battery {
+    color: @green;
+    border-color: alpha(@green, 0.25);
+}
+
+#battery.warning {
+    color: @yellow;
+    border-color: alpha(@yellow, 0.35);
+}
+
+#battery.critical {
+    color: @red;
+    border-color: alpha(@red, 0.45);
+    box-shadow: 0 0 8px alpha(@red, 0.3);
+}
+
+#battery.charging {
+    color: @purple;
+    border-color: alpha(@purple, 0.3);
+}
+
+#battery:hover {
+    border-color: alpha(@green, 0.5);
+    box-shadow: 0 0 8px alpha(@green, 0.25);
+}
+
+/* ---------- 时钟（居中） ---------- */
+#clock {
+    color: @purple;
+    border-color: alpha(@purple, 0.25);
+    padding: 0 7px;
+    font-weight: bold;
+    min-width: 80px;
+}
+
+#clock:hover {
+    border-color: alpha(@purple, 0.6);
+    box-shadow: 0 0 12px alpha(@purple, 0.35);
+    background: rgba(187, 154, 247, 0.08);
+}
+
+/* ---------- 通知 ---------- */
+#custom-notification {
+    color: @fg_dim;
+    border-color: alpha(@fg_dim, 0.2);
+    min-width: 20px;
+    padding: 0 8px;
+}
+
+#custom-notification.notification {
+    color: @yellow;
+    border-color: alpha(@yellow, 0.35);
+}
+
+#custom-notification.none {
+    color: @fg_dim;
+}
+
+/* ---------- 电源 ---------- */
+#custom-power {
+    color: @red;
+    border-color: alpha(@red, 0.25);
+    font-size: 14px;
+    padding: 0 12px;
+}
+
+#custom-power:hover {
+    border-color: alpha(@red, 0.5);
+    box-shadow: 0 0 10px alpha(@red, 0.35);
+    background: alpha(@red, 0.1);
+}
+
+/* ---------- tooltip ---------- */
+tooltip {
+    background: rgba(26, 27, 38, 0.95);
+    border: 1px solid alpha(@purple, 0.3);
+    border-radius: 10px;
+    color: @fg;
+    font-size: 11px;
+    padding: 8px 12px;
+}
+
+tooltip label {
+    color: @fg;
+}

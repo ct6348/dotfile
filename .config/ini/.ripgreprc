@@ -1,0 +1,41 @@
+# 忽略以下目录和文件
+#--glob=!.git/*
+#--glob=!node_modules/*
+#--glob=!target/*
+#--glob=!wsl2/*
+#--glob=!mapper/*
+#--glob=!mapper/**
+#--glob=!**/mapper/**
+# 排除目录
+--glob=!.git/*
+--glob=!node_modules/*
+--glob=!target/*
+--glob=!vendor/*
+--glob=!build/*
+--glob=!dist/*
+--glob=!*.min.*
+
+--glob
+!impl
+
+# 默认开启智能大小写（搜索小写时不区分，有大写时区分）
+#--smart-case
+
+# 别让 ripgrep 呕吐到我的终端，
+#--max-columns=150
+# 还展示一个预览。
+#--max-column-preview
+
+# 添加我的“网络”类型。
+#--type-add
+#web:*.{html,css,js}*
+
+# 显示颜色（默认开启）
+#--color=auto
+#--color=line:style:bold
+
+# 最大搜索深度（默认为无限制）
+#--max-depth=10
+
+# 默认搜索时显示行号
+--line-number

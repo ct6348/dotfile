@@ -1,0 +1,6 @@
+[[index]]
+# url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+url = "https://mirrors.aliyun.com/pypi/simple/"
+# url = "https://mirrors.cloud.tencent.com/pypi/simple"
+# url = "https://mirrors.huaweicloud.com/repository/pypi/simple"
+default = true

@@ -1,0 +1,261 @@
+/* ============================================================
+ * Waybar v0.15.0 — Catppuccin Mocha 现代简约主题
+ * 配色: https://github.com/catppuccin/catppuccin
+ * 字体: Maple Mono NF CN 11px
+ * 特点: 紧凑、锐利、半透明底、极简边框
+ * ============================================================ */
+
+@define-color crust     #11111b;
+@define-color mantle    #181825;
+@define-color base      #1e1e2e;
+@define-color surface0  #313244;
+@define-color surface1  #45475a;
+@define-color surface2  #585b70;
+@define-color overlay0  #6c7086;
+@define-color overlay1  #7f849c;
+@define-color subtext0  #a6adc8;
+@define-color subtext1  #bac2de;
+@define-color text      #cdd6f4;
+@define-color lavender  #b4befe;
+@define-color blue      #89b4fa;
+@define-color sapphire  #74c7ec;
+@define-color sky       #89dceb;
+@define-color teal      #94e2d5;
+@define-color green     #a6e3a1;
+@define-color yellow    #f9e2af;
+@define-color peach     #fab387;
+@define-color maroon    #eba0ac;
+@define-color red       #f38ba8;
+@define-color mauve     #cba6f7;
+@define-color pink      #f5c2e7;
+@define-color flamingo  #f2cdcd;
+@define-color rosewater #f5e0dc;
+
+/* ---------- 顶层 ---------- */
+* {
+    font-family: "Maple Mono NF CN", "Maple Mono", sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 40px;
+}
+
+window#waybar {
+    background: @base;
+    color: @text;
+    border-bottom: 1px solid @surface0;
+    padding: 0 2px;
+}
+
+/* ---------- 模块基础 ---------- */
+.modules-left > widget,
+.modules-right > widget {
+    margin: 1px 0;
+}
+
+#workspaces,
+#tray,
+#network,
+#pulseaudio,
+#backlight,
+#cpu,
+#memory,
+#battery,
+#clock,
+#custom-notification,
+#custom-power {
+    background: @mantle;
+    border: 1px solid @surface0;
+    border-radius: 0;
+    padding: 0 8px;
+    margin: 1px 1px;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+/* ---------- 工作区 ---------- */
+#workspaces {
+    padding: 0 2px;
+}
+
+#workspaces button {
+    background: transparent;
+    color: @overlay0;
+    border: none;
+    border-radius: 20px;
+    padding: 2px 4px;
+    margin: 1px 0;
+    min-width: 18px;
+}
+
+#workspaces button.active {
+    color: @lavender;
+    border-bottom: 2px solid @lavender;
+}
+
+#workspaces button.urgent {
+    color: @red;
+    border-bottom: 2px solid @red;
+}
+
+#workspaces button:hover {
+    color: @text;
+    background: @surface0;
+}
+
+/* ---------- 任务栏 ---------- */
+#taskbar {
+    background: @mantle;
+    border: 1px solid @surface0;
+    border-radius: 0;
+    padding: 0 4px;
+    margin: 1px 1px;
+}
+
+#taskbar button {
+    background: transparent;
+    color: @overlay0;
+    border: none;
+    border-radius: 0;
+    padding: 0 6px;
+    margin: 1px 0;
+}
+
+#taskbar button.active {
+    color: @lavender;
+    border-bottom: 2px solid @lavender;
+}
+
+#taskbar button:hover {
+    color: @text;
+    background: @surface0;
+}
+
+/* ---------- 窗口标题 ---------- */
+#window {
+    background: @mantle;
+    border: 1px solid @surface0;
+    border-radius: 0;
+    padding: 0 8px;
+    margin: 1px 1px;
+    color: @subtext0;
+}
+
+/* ---------- 系统托盘 ---------- */
+#tray {
+    padding: 0 4px;
+    background: transparent;
+    border: none;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+/* ---------- 网络 ---------- */
+#network {
+    color: @teal;
+    border-color: alpha(@teal, 0.3);
+}
+
+#network.disconnected {
+    color: @red;
+    border-color: alpha(@red, 0.3);
+}
+
+/* ---------- 音频 ---------- */
+#pulseaudio {
+    color: @green;
+    border-color: alpha(@green, 0.3);
+}
+
+#pulseaudio.muted {
+    color: @overlay0;
+    border-color: @surface0;
+}
+
+/* ---------- 亮度 ---------- */
+#backlight {
+    color: @yellow;
+    border-color: alpha(@yellow, 0.3);
+}
+
+/* ---------- CPU ---------- */
+#cpu {
+    color: @sky;
+    border-color: alpha(@sky, 0.3);
+}
+
+/* ---------- 内存 ---------- */
+#memory {
+    color: @blue;
+    border-color: alpha(@blue, 0.3);
+}
+
+/* ---------- 电池 ---------- */
+#battery {
+    color: @green;
+    border-color: alpha(@green, 0.3);
+}
+
+#battery.warning {
+    color: @peach;
+    border-color: alpha(@peach, 0.3);
+}
+
+#battery.critical {
+    color: @red;
+    border-color: alpha(@red, 0.5);
+}
+
+#battery.charging {
+    color: @mauve;
+    border-color: alpha(@mauve, 0.3);
+}
+
+/* ---------- 时钟 ---------- */
+#clock {
+    color: @lavender;
+    border-color: alpha(@lavender, 0.25);
+    min-width: 80px;
+}
+
+/* ---------- 通知 ---------- */
+#custom-notification {
+    min-width: 20px;
+}
+
+#custom-notification.notification {
+    color: @peach;
+    border-color: alpha(@peach, 0.4);
+}
+
+#custom-notification.none {
+    color: @overlay0;
+    border-color: @surface0;
+}
+
+/* ---------- 电源 ---------- */
+#custom-power {
+    color: @maroon;
+    border-color: alpha(@maroon, 0.3);
+    font-size: 13px;
+}
+
+#custom-power:hover {
+    background: @surface0;
+    border-color: @overlay0;
+}
+
+/* ---------- tooltip ---------- */
+tooltip {
+    background: @mantle;
+    border: 1px solid @surface1;
+    border-radius: 4px;
+    color: @text;
+    font-size: 11px;
+    padding: 6px 10px;
+}
+
+tooltip label {
+    color: @text;
+}

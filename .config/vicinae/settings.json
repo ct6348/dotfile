@@ -1,0 +1,85 @@
+// This configuration is merged with the default vicinae configuration file, which you can obtain by running the `vicinae config default` command.
+// Every item defined in this file takes precedence over the values defined in the default config or any other imported file.
+//
+// You can make manual edits to this file, however you should keep in mind that this file may be written to by vicinae when a configuration change is made through the GUI.
+// When that happens, any custom comments or formatting will be lost.
+//
+// If you want to maintain a configuration file with your own comments and formatting, you should create a separate file and add it to the 'imports' array.
+//
+// Learn more about configuration at https://docs.vicinae.com/config
+
+{
+   "$schema": "https://vicinae.com/schemas/config.json",
+   "font": {
+      "normal": {
+         "size": 10
+      }
+   },
+   "theme": {
+      "dark": {
+         "name": "vicinae-dark"
+      }
+   },
+   "launcher_window": {
+      "opacity": 0.90,
+      "client_side_decorations": {
+         "shadow_size": 10
+      }
+   },
+   "fallbacks": [
+      "files:search"
+   ],
+   "providers": {
+      "@FurkanTRN/store.vicinae.jetbrains-recent-projects": {
+         "preferences": {
+            "toolboxAppsDirInput": "~/.local/share/JetBrains/Toolbox/apps",
+            "toolboxScriptsDirInput": "~/.local/share/JetBrains/Toolbox/scripts"
+         }
+      },
+      "@leonkohli/store.vicinae.process-manager": {
+         "enabled": false
+      },
+      "applications": {
+         "preferences": {
+            "defaultAction": "focus",
+            "paths": [
+               "/home/chent/.local/share/applications",
+               "/home/chent/.local/share/flatpak/exports/share/applications",
+               "/var/lib/flatpak/exports/share/applications",
+               "/usr/local/share/applications",
+               "/usr/share/applications"
+            ]
+         }
+      },
+      "calculator": {
+         "preferences": {
+            "backend": "qalculate",
+            "refreshRatesOnStartup": true
+         }
+      },
+      "files": {
+         "enabled": true,
+         "preferences": {
+            "autoIndexing": true,
+            "excludedPaths": "/data/main/projectfile/projectpak",
+            "paths": "/data/main/projectfile",
+            "watcherPaths": ""
+         }
+      },
+      "scripts": {
+         "preferences": {
+            "customDirs": []
+         }
+      },
+      "shortcuts": {
+         "enabled": true
+      },
+      "system": {
+         "entrypoints": {
+            "browse-apps": {
+               "enabled": false
+            }
+         }
+      }
+   }
+}

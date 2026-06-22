@@ -1,0 +1,48 @@
+/* wlogout style — Tokyo Night Storm 赛博深蓝主题 */
+* { box-shadow: none; }
+
+window { background: rgba(26, 27, 38, 0.85); }
+
+button {
+    color: #c0caf5;
+    background-color: rgba(36, 40, 59, 0.6);
+    border: 1px solid rgba(187, 154, 247, 0.25);
+    border-radius: 12px;
+    margin: 6px;
+    padding: 12px 8px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 28px;
+    min-height: 60px;
+    transition: all 0.2s ease;
+}
+
+button:focus, button:active {
+    border-color: rgba(187, 154, 247, 0.3);
+    outline-style: none;
+    box-shadow: none;
+}
+
+button:hover {
+    background-color: rgba(36, 40, 59, 0.95);
+    border-color: rgba(187, 154, 247, 0.6);
+    box-shadow: 0 0 12px rgba(187, 154, 247, 0.35);
+    background-image: inherit;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 28px;
+    outline-style: none;
+}
+
+label {
+    font-family: "Maple Mono NF CN", "Maple Mono", "Noto Sans CJK SC", sans-serif;
+    font-size: 11px;
+    color: #c0caf5;
+}
+
+#lock     { background-image: url("../../../wallpaper/icons/lock2.png"); }
+#logout   { background-image: url("../../../wallpaper/icons/logout2.png"); }
+#shutdown { background-image: url("../../../wallpaper/icons/shutdown2.png"); }
+#reboot   { background-image: url("../../../wallpaper/icons/reboot2.png"); }
+#suspend  { background-image: url("../../../wallpaper/icons/suspend2.png"); }
+#hibernate{ background-image: url("../../../wallpaper/icons/hibernate2.png"); }

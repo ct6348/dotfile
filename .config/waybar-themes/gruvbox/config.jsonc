@@ -1,0 +1,176 @@
+// ============================================================
+// Waybar v0.15.0 — Gruvbox 暖色经典主题
+// 字体: Maple Mono NF CN  字号: 12px
+// 依赖: waybar, mako, pamixer, networkmanager, blueman,
+//       brightnessctl, wlogout, fuzzel
+// ============================================================
+{
+    "layer": "top",
+    // "position": "top",
+    "height": 34,
+    "margin-top": 4,
+    "margin-left": 6,
+    "margin-right": 6,
+    "modules-left": ["ext/workspaces", "wlr/taskbar", "dwl/window"],
+    "modules-center": [],
+    "modules-right": [
+        "tray",
+        "network",
+        // "bluetooth",
+        "pulseaudio",
+        "backlight",
+        // "temperature",
+        "cpu",
+        "memory",
+        // "disk",
+        "battery",
+        "clock",
+        "custom/notification",
+        "custom/power"
+    ],
+
+    // ---------- 工作区 ----------
+    "ext/workspaces": {
+        "format": "{name}"
+    },
+
+    // ---------- 任务栏 ----------
+    "wlr/taskbar": {
+        "format": "{icon}  {name}",
+        "icon-size": 16,
+        "tooltip-format": "{title}",
+        "on-click": "activate"
+    },
+
+    // ---------- 窗口标题 ----------
+    "dwl/window": {
+        "format": "{}  ",
+        "max-length": 40,
+        "tooltip-format": "窗口: {title}"
+    },
+
+    // ---------- 系统托盘 ----------
+    "tray": {
+        "icon-size": 16,
+        "spacing": 6
+    },
+
+    // ---------- 网络 ----------
+    "network": {
+        "interval": 2,
+        "format-wifi": "󰤨 {signalStrength}%",
+        "format-ethernet": "󰀂 100%",
+        "format-disconnected": "󰤭 离线",
+        "tooltip-format": "网络: {ifname}\nIP: {ipaddr}/{cidr}\n网关: {gwaddr}\n信号: {signalStrength}%"
+    },
+
+    // ---------- 蓝牙 ----------
+    "bluetooth": {
+        "format": " {status}",
+        "format-connected": " {num_connections}",
+        "tooltip-format": "蓝牙: {status}\n已连接: {device_alias}",
+        "on-click": "blueman-manager",
+        "interval": 10
+    },
+
+    // ---------- 音频 ----------
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": " 静音",
+        "format-bluetooth": " {volume}%",
+        "tooltip-format": "音频: {volume}%\n{desc}",
+        "on-click": "pamixer -t",
+        "on-scroll-up": "pamixer -i 5",
+        "on-scroll-down": "pamixer -d 5",
+        "format-icons": {
+            "headphone": "",
+            "default": ["", "", ""]
+        }
+    },
+
+    // ---------- 屏幕亮度 ----------
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{icon} {percent}%",
+        "format-icons": ["󰖔", "󰖨"],
+        "tooltip-format": "亮度: {percent}%",
+        "on-scroll-up": "brightnessctl s +5%",
+        "on-scroll-down": "brightnessctl s 5%-"
+    },
+
+    // ---------- 温度 ----------
+    "temperature": {
+        "interval": 5,
+        "format": "{icon} {temperatureC}°C",
+        "format-critical": "{icon} {temperatureC}°C",
+        "critical-threshold": 85,
+        "tooltip-format": "温度: {temperatureC}°C\n最高: {temperatureF}°F",
+        "format-icons": ["", "", ""],
+        "thermal-zone": 0
+    },
+
+    // ---------- CPU ----------
+    "cpu": {
+        "interval": 3,
+        "format": " {usage}%",
+        "tooltip-format": "CPU: {usage}%\n频率: {frequency:GHz}GHz"
+    },
+
+    // ---------- 内存 ----------
+    "memory": {
+        "interval": 5,
+        "format": " {percentage}%",
+        "tooltip-format": "内存: {percentage}%\n已用: {used}/{total}",
+        "states": {
+            "warning": 80,
+            "critical": 90
+        }
+    },
+
+    // ---------- 磁盘 ----------
+    "disk": {
+        "interval": 30,
+        "format": "󰉉 {percentage_free}%",
+        "tooltip-format": "磁盘: 空闲 {percentage_free}%\n已用: {used} / {total}",
+        "path": "/"
+    },
+
+    // ---------- 电池 ----------
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-discharging": "{icon} {capacity}% ({time})",
+        "tooltip-format": "电池: {capacity}%",
+        "format-icons": ["", "", "", "", ""]
+    },
+
+    // ---------- 时钟 ----------
+    "clock": {
+        "interval": 1,
+        "format": "{:%a %m/%d}",
+        "format-alt": "{:%H:%M}",
+        "tooltip-format": "时钟: {:%Y-%m-%d %H:%M:%S %A}",
+    },
+
+    // ---------- 通知 ----------
+    "custom/notification": {
+        "exec-if": "command -v makoctl",
+        "exec": "makoctl list 2>/dev/null | grep -q data && echo '{\"text\":\" ﳰ \",\"class\":\"notification\"}' || echo '{\"text\":\"  \",\"class\":\"none\"}'",
+        "return-type": "json",
+        "on-click": "makoctl dismiss -a",
+        "interval": 3
+    },
+
+    // ---------- 电源 ----------
+    "custom/power": {
+        "format": "󰣇",
+        "tooltip-format": "电源: 点击关机",
+        "on-click": "bash $HOME/.config/waybar-themes/gruvbox/wlogout/wlogout.sh",
+        "interval": "once"
+    }
+}

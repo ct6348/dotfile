@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+  <its:rules xmlns:its="http://www.w3.org/2005/11/its" version="1.0">
+    <its:translateRule translate="no" selector="/fontconfig/*[not(self::description)]"/>
+  </its:rules>
+
+  <description>Optimized Font Configuration for Professional Display</description>
+
+  <!-- Font directories -->
+  <dir>/usr/share/fonts</dir>
+  <dir>~/.local/share/fonts</dir>
+  <dir prefix="xdg">fonts</dir>
+
+  <!-- Disable embedded bitmap fonts -->
+  <match target="font">
+    <edit name="embeddedbitmap" mode="assign"><bool>false</bool></edit>
+  </match>
+
+  <!-- Global font rendering settings -->
+  <match target="font">
+    <!-- Antialiasing -->
+    <edit name="antialias" mode="assign"><bool>true</bool></edit>
+    <!-- Hinting -->
+    <edit name="hinting" mode="assign"><bool>true</bool></edit>
+    <edit name="hintstyle" mode="assign"><const>hintslight</const></edit>
+    <!-- RGB subpixel rendering -->
+    <edit name="rgba" mode="assign"><const>rgb</const></edit>
+    <!-- LCD filter -->
+    <edit name="lcdfilter" mode="assign"><const>lcddefault</const></edit>
+    <!-- Autohinting for better quality -->
+    <edit name="autohint" mode="assign"><bool>true</bool></edit>
+  </match>
+
+  <!-- Font weight optimization (正规粗体) -->
+  <match target="pattern">
+    <test name="weight" compare="less"><const>medium</const></test>
+    <edit name="weight" mode="assign"><const>medium</const></edit>
+  </match>
+
+  <!-- English font settings -->
+  <match>
+    <test qual="any" name="family"><string>serif</string></test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>Noto Serif</string>
+    </edit>
+  </match>
+  
+  <match>
+    <test qual="any" name="family"><string>sans-serif</string></test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>Roboto</string>
+    </edit>
+  </match>
+  
+  <match>
+    <test qual="any" name="family"><string>monospace</string></test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>DejaVu Sans Mono</string>
+    </edit>
+  </match>
+
+  <!-- Chinese font settings (使用Noto CJK SC) -->
+  <match>
+    <test name="lang" compare="contains"><string>zh</string></test>
+    <test name="family"><string>serif</string></test>
+    <edit name="family" mode="prepend">
+      <string>Noto Serif CJK SC</string>
+    </edit>
+  </match>
+  
+  <match>
+    <test name="lang" compare="contains"><string>zh</string></test>
+    <test name="family"><string>sans-serif</string></test>
+    <edit name="family" mode="prepend">
+      <string>Noto Sans CJK SC</string>
+    </edit>
+  </match>
+  
+  <match>
+    <test name="lang" compare="contains"><string>zh</string></test>
+    <test name="family"><string>monospace</string></test>
+    <edit name="family" mode="prepend">
+      <string>Noto Sans Mono CJK SC</string>
+    </edit>
+  </match>
+
+  <!-- Emoji and symbol support -->
+  <match>
+    <test name="family"><string>emoji</string></test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>Noto Color Emoji</string>
+    </edit>
+  </match>
+  
+  <match>
+    <test name="family"><string>math</string></test>
+    <edit name="family" mode="prepend" binding="strong">
+      <string>Latin Modern Math</string>
+    </edit>
+  </match>
+
+  <!-- Font alias for better fallback -->
+  <alias>
+    <family>serif</family>
+    <prefer>
+      <family>Noto Serif</family>
+      <family>Noto Serif CJK SC</family>
+      <family>Source Han Serif CN</family>
+    </prefer>
+  </alias>
+  
+  <alias>
+    <family>sans-serif</family>
+    <prefer>
+      <family>Roboto</family>
+      <family>Noto Sans CJK SC</family>
+      <family>Source Han Sans CN</family>
+    </prefer>
+  </alias>
+  
+  <alias>
+    <family>monospace</family>
+    <prefer>
+      <family>DejaVu Sans Mono</family>
+      <family>Noto Sans Mono CJK SC</family>
+    </prefer>
+  </alias>
+
+  <!-- Emoji fallback -->
+  <alias>
+    <family>Apple Color Emoji</family>
+    <prefer><family>Noto Color Emoji</family></prefer>
+  </alias>
+  <alias>
+    <family>Segoe UI Emoji</family>
+    <prefer><family>Noto Color Emoji</family></prefer>
+  </alias>
+
+  <!-- Load local custom configurations -->
+  <include ignore_missing="yes">conf.d</include>
+
+  <!-- Font cache directories -->
+  <cachedir>/var/cache/fontconfig</cachedir>
+  <cachedir prefix="xdg">fontconfig</cachedir>
+
+  <config>
+    <!-- Rescan configuration every 60 seconds -->
+    <rescan><int>60</int></rescan>
+  </config>
+</fontconfig>

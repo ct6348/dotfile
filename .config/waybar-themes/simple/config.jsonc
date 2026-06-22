@@ -1,0 +1,78 @@
+//可能要安装字体noto-fonts-emoji
+{
+	"layer": "top",
+	// "position": "bottom",
+	"height": 34,
+	// "width": 1366,
+	"modules-left": ["wlr/taskbar"],
+	// "modules-center": ["niri/workspaces"],
+	"modules-right": ["wireplumber", "bluetooth", "disk", "cpu", "memory", "battery", "clock", "tray"],
+	"wlr/taskbar": {
+			"format": "{icon}",
+			"tooltip-format": "{title} | {app_id}",
+			"on-click": "activate",
+			"on-click-middle": "close",
+			"on-click-right": "fullscreen"
+	},
+	"niri/workspaces": {
+			"disable-scroll": true,
+			"all-outputs": false,
+			"format": "{icon}",
+			"format-icons": {
+					"1:web": "",
+					"2:code": "",
+					"3:term": "",
+					"4:work": "",
+					"5:music": "",
+					"6:docs": "",
+			}
+	},
+	"disk":{
+			"format": "󰉉  {percentage_free}%",
+	},
+	"sway/mode": {
+			"format": "<span style=\"italic\">{}</span>"
+	},
+	"tray": {
+			// "icon-size": 21,
+			"spacing": 10
+	},
+	"clock": {
+			"format": "  {:%Y-%m-%d    󰅐  %H:%M}",
+	},
+	"cpu": {
+			"format": "󰻠  {usage}%"
+	},
+	// 
+	"memory": {
+			"format": "  {}%"
+	},
+	"battery": {
+		"states": {
+			"warning": 20,
+			"critical": 10
+		},
+		"format": "<span color='#ffffff'>{icon}</span>   {capacity}%",
+		"format-charging": "<span color='#e88939'> </span> {capacity}%{time}",
+		"format-plugged":  "<span color='#e88939'>{icon}  </span>   {capacity}%",
+		"format-discharging": "<span color='#e88939'>{icon}</span>   {capacity}% ({time})",
+		"format-icons": ["", "", "", "", ""]
+	},
+	"network": {
+			// "interface": "wlp2s0",
+			"format-wifi": "   {essid}: {ipaddr}/{cidr}",
+			"format-ethernet": "  {ifname}: {ipaddr}/{cidr}",
+			"format-disconnected": "⚠ Disconnected "
+	},
+	"wireplumber": {
+			"format": "{icon}  {volume}%   ",
+			"format-muted": "  ",
+			"on-click": "pwvucontrol",
+			"format-icons": ["", " "]
+	},
+	"bluetooth": {
+		"format": " {status}  ",
+		"format-connected-battery": " {device_battery_percentage}%  ",
+		"on-click": "blueberry"
+	}
+}

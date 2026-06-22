@@ -1,0 +1,285 @@
+/* ============================================================
+ * Waybar v0.15.0 — Gruvbox 暖色经典主题
+ * 配色: https://github.com/morhetz/gruvbox
+ * 字体: Maple Mono NF CN 12px
+ * ============================================================ */
+
+@define-color bg       #1d1c19;
+@define-color bg2      #282828;
+@define-color fg       #ebdbb2;
+@define-color gray     #504945;
+@define-color red      #df402f;
+@define-color green    #b8bb26;
+@define-color yellow   #d5c4a1;
+@define-color blue     #83a598;
+@define-color purple   #d3869b;
+@define-color aqua     #8ec07c;
+@define-color orange   #e3ac2b;
+@define-color fg_dim   #928374;
+
+/* ---------- 顶层 ---------- */
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "Maple Mono NF CN", "Maple Mono", "Noto Sans CJK SC", sans-serif;
+    font-size: 12px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: @bg;
+    color: @fg;
+    transition-property: background-color;
+    transition-duration: 0.2s;
+    border-radius: 10px;
+}
+
+/* ---------- 统一模块样式 ---------- */
+.modules-left > widget,
+.modules-center > widget,
+.modules-right > widget {
+    margin: 2px 2px;
+}
+
+/* ---------- 左侧: 工作区 ---------- */
+#workspaces {
+    background: @bg2;
+    border-radius: 8px;
+    padding: 0 4px;
+}
+
+#workspaces button {
+    background: transparent;
+    color: @fg_dim;
+    border-radius: 6px;
+    padding: 0 6px;
+    margin: 2px 1px;
+    min-width: 20px;
+}
+
+#workspaces button.active {
+    background: @gray;
+    color: @blue;
+}
+
+#workspaces button.urgent {
+    background: @red;
+    color: @fg;
+}
+
+#workspaces button:hover {
+    background: alpha(@fg, 0.15);
+    color: @fg;
+}
+
+/* ---------- 任务栏 ---------- */
+#taskbar {
+    background: @bg2;
+    border-radius: 8px;
+    padding: 0 4px;
+}
+
+#taskbar button {
+    background: transparent;
+    color: @fg_dim;
+    border-radius: 6px;
+    padding: 0 6px;
+    margin: 2px 1px;
+}
+
+#taskbar button.active {
+    background: @gray;
+    color: @fg;
+}
+
+#taskbar button:hover {
+    background: alpha(@fg, 0.15);
+    color: @fg;
+}
+
+/* ---------- 窗口标题 ---------- */
+#window {
+    background: @bg2;
+    border-radius: 8px;
+    padding: 0 10px;
+    color: @fg_dim;
+}
+
+/* ---------- 系统托盘 ---------- */
+#tray {
+    background: @bg2;
+    border-radius: 8px;
+    padding: 0 6px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}
+
+/* ---------- 网络 ---------- */
+#network {
+    background: linear-gradient(135deg, #2e3b2e, #282828);
+    border-radius: 8px;
+    padding: 0 10px;
+    color: @green;
+}
+
+#network.disconnected {
+    color: @red;
+}
+
+#network.disabled {
+    color: @fg_dim;
+}
+
+/* ---------- 蓝牙 ---------- */
+#bluetooth {
+    background: linear-gradient(135deg, #2a3540, #282828);
+    border-radius: 8px;
+    padding: 0 10px;
+    color: @blue;
+}
+
+#bluetooth.disabled {
+    color: @fg_dim;
+}
+
+/* ---------- 音频 ---------- */
+#pulseaudio {
+    background: linear-gradient(135deg, #3a3220, #282828);
+    border-radius: 8px;
+    padding: 0 10px;
+    color: @orange;
+}
+
+#pulseaudio.muted {
+    color: @red;
+}
+
+/* ---------- 亮度 ---------- */
+#backlight {
+    background: linear-gradient(135deg, #3a2838, #282828);
+    border-radius: 8px;
+    padding: 0 10px;
+    color: @purple;
+}
+
+/* ---------- 温度 ---------- */
+#temperature {
+    background: linear-gradient(135deg, #253a28, #282828);
+    border-radius: 8px;
+    padding: 0 10px;
+    color: @aqua;
+}
+
+#temperature.critical {
+    color: @red;
+}
+
+/* ---------- CPU ---------- */
+#cpu {
+    background: linear-gradient(135deg, #3a3830, #282828);
+    border-radius: 8px;
+    padding: 0 10px;
+    color: @yellow;
+}
+
+/* ---------- 内存 ---------- */
+#memory {
+    background: linear-gradient(135deg, #2a3840, #282828);
+    border-radius: 8px;
+    padding: 0 10px;
+    color: @blue;
+}
+
+#memory.warning {
+    color: @orange;
+}
+
+#memory.critical {
+    color: @red;
+}
+
+/* ---------- 磁盘 ---------- */
+#disk {
+    background: linear-gradient(135deg, #2a3a2e, #282828);
+    border-radius: 8px;
+    padding: 0 10px;
+    color: @aqua;
+}
+
+/* ---------- 电池 ---------- */
+#battery {
+    background: linear-gradient(135deg, #2e3a2e, #282828);
+    border-radius: 8px;
+    padding: 0 10px;
+    color: @green;
+}
+
+#battery.warning {
+    color: @orange;
+}
+
+#battery.critical {
+    color: @red;
+}
+
+#battery.charging {
+    color: @green;
+}
+
+/* ---------- 时钟 ---------- */
+#clock {
+    background: linear-gradient(135deg, #3a3830, #282828);
+    border-radius: 8px;
+    padding: 0 14px;
+    color: @yellow;
+    min-width: 80px;
+}
+
+/* ---------- 通知 ---------- */
+#custom-notification {
+    background: @bg2;
+    border-radius: 8px;
+    padding: 0 8px;
+    min-width: 24px;
+}
+
+#custom-notification.notification {
+    color: @orange;
+}
+
+#custom-notification.none {
+    color: @fg_dim;
+}
+
+/* ---------- 电源 ---------- */
+#custom-power {
+    background: linear-gradient(135deg, #2a3840, #282828);
+    border-radius: 8px;
+    padding: 0 10px;
+    color: @blue;
+    font-size: 14px;
+}
+
+#custom-power:hover {
+    background: linear-gradient(135deg, #3a4850, #383838);
+}
+
+/* ---------- tooltip ---------- */
+tooltip {
+    background: @bg2;
+    border: 1px solid @gray;
+    border-radius: 8px;
+    color: @fg;
+    font-size: 11px;
+    padding: 6px 10px;
+}
+
+tooltip label {
+    color: @fg;
+}

@@ -1,0 +1,372 @@
+# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
+# If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
+# $schema = "https://yazi-rs.github.io/schemas/yazi.json"
+
+[mgr]
+ratio = [1, 4, 3]
+sort_by = "natural"
+sort_sensitive = false
+sort_reverse = false
+sort_dir_first = true
+sort_translit = false
+linemode = "none"
+show_hidden = true
+show_symlink = true
+scrolloff = 5
+mouse_events = ["click", "scroll"]
+title_format = "Yazi: {cwd}"
+
+[manager]
+mouse_events = true
+
+[preview]
+wrap = "yes"
+tab_size = 2
+# defualt /tmp
+cache_dir = ""
+image_delay = 30
+image_filter = "triangle"
+image_quality = 75
+max_width = 800
+max_height = 1280
+ueberzug_scale = 1
+ueberzug_offset = [0, 0, 0, 0]
+
+# 手动修改了大量打开的常用软件，orphan使用新的进程打开，block将和yazi同一个进程
+[opener]
+edit = [
+    { run = '${EDITOR:-vi} "$@"', desc = "$EDITOR", block = true, for = "unix" },
+    { run = 'code "$@"', desc = "vscode", block = true, for = "unix" },
+    { run = 'zed "$@"', desc = "zed", block = true, for = "unix" },
+    # { run = 'neovide --frame none "$@"', desc = "neovide", block = true, for = "unix" },
+    # { run = 'code %*',    orphan = true, desc = "code",           for = "windows" },
+    # { run = 'code -w %*', block = true,  desc = "code (block)",   for = "windows" },
+]
+open = [
+    { run = 'mpv "$@"', desc = "Open with mpv", for = "linux" },       #video
+    { run = 'gthumb "$@"', desc = "Open with gthumb", for = "linux" }, #image
+    # { run = 'qimgv "$@"', desc = "Open with qimgv", for = "linux" }, #image
+    # { run = 'swayimg "$@"', desc = "Open with swayimg", for = "linux" }, #image
+    # xdg-open 和自动调用默认应用
+    { run = 'xdg-open "$1"', desc = "Open", for = "linux" }, #资源管理器
+    # { run = 'open "$@"',                    desc = "Open", for = "macos" },
+    # { run = 'start "" "%1"', orphan = true, desc = "Open", for = "windows" },
+    # { run = 'termux-open "$1"',             desc = "Open", for = "android" },
+]
+reveal = [
+    { run = 'xdg-open "$(dirname "$1")"', desc = "Reveal", for = "linux" },
+    # { run = 'open -R "$1"',                         desc = "Reveal", for = "macos" },
+    # { run = 'explorer /select,"%1"', orphan = true, desc = "Reveal", for = "windows" },
+    # { run = 'termux-open "$(dirname "$1")"',        desc = "Reveal", for = "android" },
+    { run = '''clear; exiftool "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show EXIF", for = "unix" },
+]
+extract = [
+    { run = 'ouch decompress "$1"', desc = "Extract here(ouch)", for = "unix" },
+    { run = '7z x "$1"', desc = "Extract here(7z)", for = "unix" },
+    # { run = 'peazip "$1"', desc = "peazip ui extract", for = "unix" },
+    { run = 'ya pub extract --list "$@"', desc = "Extract here", for = "unix" },
+    # { run = 'engrampa "$1"', desc = "engrampa ui extract", for = "unix" },
+    # { run = 'ya pub extract --list %*',   desc = "Extract here", for = "windows" },
+]
+audio = [
+    { run = 'audacious -H "$@"', orphan = true, for = "unix" },
+    { run = 'mpv --force-window "$@"', orphan = true, for = "unix" },
+    # { run = 'mpv --force-window %*', orphan = true, for = "windows" },
+    { run = '''mediainfo "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show media info", for = "unix" },
+]
+video = [
+    { run = 'mpv --force-window "$@"', orphan = true, for = "unix" },
+    { run = 'audacious -H "$@"', orphan = true, for = "unix" },
+    # { run = 'mpv --force-window %*', orphan = true, for = "windows" },
+    { run = '''mediainfo "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show media info", for = "unix" },
+]
+pdf = [
+    { run = 'onlyoffice-desktopeditors "$@"', orphan = true, for = "unix" },
+    { run = 'atril "$@"', orphan = true, for = "unix" },
+]
+document = [
+    { run = 'pandoc -t plain "$1" | bat --paging=always', block = true, desc = "Quick View (Bat Pager)", for = "unix" },
+    { run = 'onlyoffice-desktopeditors "$@"', orphan = true, for = "unix" },
+    { run = 'atril "$@"', orphan = true, for = "unix" },
+]
+sqlite = [{ run = 'sqlitestudio "$@"', orphan = true, for = "unix" }]
+# archive = [
+# 	{ run = 'plugin ouch preview', desc = "See inside (ouch)", for = "unix" },
+# 	{ run = 'plugin mount', desc = "Mount and enter", for = "unix" },
+# ]
+
+[open]
+prepend_rules = [
+    { mime = "*/sqlite3", use = [
+        "sqlite",
+        "reveal",
+    ] },
+    { url = ".dart", use = [
+        "edit",
+        "reveal",
+    ] },
+    { url = ".sql", use = [
+        "edit",
+        "reveal",
+    ] },
+    { mime = "*application/x-rar", use = [
+        "extract",
+        "reveal",
+    ] },
+    { mime = "*/pdf", use = [
+        "pdf",
+        "reveal",
+    ] },
+    { mime = "*excel*", use = [
+    	"document",
+    	"reveal",
+    ] }, # 旧版Excel文件（.xls）
+    { mime = "*sheet*", use = [
+    	"document",
+    	"reveal",
+    ] }, # 新版Excel文件（.xlsx）
+    { mime = "*word*", use = [
+    	"document",
+    	"reveal",
+    ] }, # 旧版Word文件（.doc）
+    { mime = "*document*", use = [
+    	"document",
+    	"reveal",
+    ] }, # 新版Word文件（.docx）
+    { mime = "*powerpoint*", use = [
+    	"document",
+    	"reveal",
+    ] }, # 旧版PowerPoint文件（.ppt）
+    { mime = "*presentation*", use = [
+    	"document",
+    	"reveal",
+    ] }, # 新版PowerPoint文件（.pptx）
+]
+# 手动修改打开有问题的文件类型可以根据后缀名指定软件，有的时候要/后缀名才生效
+rules = [
+    # Folder
+    # { mime = "inode/directory", use = [
+    # 	"edit",
+    # 	"open",
+    # 	"reveal",
+    # ] },
+    # Text
+    { mime = "text/*", use = [
+        "edit",
+        "reveal",
+    ] },
+    # Image
+    { mime = "image/*", use = [
+        "open",
+        "reveal",
+    ] },
+    # Media
+    # { mime = "{audio,video}/*", use = [ "play", "reveal" ] },
+    { mime = "{audio}/*", use = [
+        "audio",
+        "reveal",
+    ] },
+    { mime = "{video}/*", use = [
+        "video",
+        "reveal",
+    ] },
+       { mime = "*excel*", use = [
+    	"document",
+    	"reveal",
+    ] }, # 旧版Excel文件（.xls）
+    { mime = "*sheet*", use = [
+    	"document",
+    	"reveal",
+    ] }, # 新版Excel文件（.xlsx）
+    { mime = "*word*", use = [
+    	"document",
+    	"reveal",
+    ] }, # 旧版Word文件（.doc）
+    { mime = "*document*", use = [
+    	"document",
+    	"reveal",
+    ] }, # 新版Word文件（.docx）
+    { mime = "*powerpoint*", use = [
+    	"document",
+    	"reveal",
+    ] }, # 旧版PowerPoint文件（.ppt）
+    { mime = "*presentation*", use = [
+    	"document",
+    	"reveal",
+    ] }, # 新版PowerPoint文件（.pptx）
+]
+
+[tasks]
+micro_workers = 10
+macro_workers = 10
+bizarre_retry = 3
+image_alloc = 536870912  # 512MB
+image_bound = [0, 0]
+suppress_preload = false
+
+
+[plugin]
+
+# prepend_preloaders = [
+# 	{ mime = "{audio,video,image}/*", run = "mediainfo" },
+# 	{ mime = "application/subrip", run = "mediainfo" },
+# 	{ mime = "application/postscript", run = "mediainfo" },
+# 	{ url = "/run/user/1000/gvfs/**/*", run = "noop" },
+# 	{ url = "/run/media/USER_NAME/**/*", run = "noop" },
+# 	{ url = "*.csv", run = "duckdb", multi = false },
+# 	{ url = "*.tsv", run = "duckdb", multi = false },
+# 	{ url = "*.json", run = "duckdb", multi = false },
+# 	{ url = "*.parquet", run = "duckdb", multi = false },
+# 	{ url = "*.txt", run = "duckdb", multi = false },
+# 	{ url = "*.xlsx", run = "duckdb", multi = false },
+# ]
+prepend_previewers = [
+    # 	{ mime = "{audio,video,image}/*", run = "mediainfo" },
+    # 	{ mime = "application/subrip", run = "mediainfo" },
+    # 	{ mime = "application/postscript", run = "mediainfo" },
+    # 	{ url = "*/", run = "folder" },
+    # 	{ url = "/run/user/1000/gvfs/**/*", run = "noop" },
+    # 	{ url = "/run/media/USER_NAME/**/*", run = "noop" },
+    # 	{ url = "*.csv", run = "duckdb" },
+    # 	{ url = "*.tsv", run = "duckdb" },
+    # 	{ url = "*.json", run = "duckdb" },
+    # 	{ url = "*.parquet", run = "duckdb" },
+    # 	{ url = "*.txt", run = "duckdb" },
+    # 	{ url = "*.xlsx", run = "duckdb" },
+    # 	{ url = "*.db", run = "duckdb" },
+    # 	{ url = "*.duckdb", run = "duckdb" },
+    # 	# Archive previewer
+    # 	{ mime = "application/*zip", run = "ouch" },
+    # 	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", run = "ouch" },
+]
+
+# spotters = [
+# 	# { mime = "*/", run = "folder" },
+# 	# Code
+# 	{ mime = "text/*", run = "code" },
+# 	{ mime = "application/{mbox,javascript,wine-extension-ini}", run = "code" },
+# 	# Image
+# 	{ mime = "image/{avif,hei?,jxl}", run = "magick" },
+# 	{ mime = "image/*", run = "image" },
+# 	# Video
+# 	{ mime = "video/*", run = "video" },
+# 	# Fallback
+# 	{ mime = "*", run = "file" },
+# ]
+
+# preloaders = [
+# 	# Image
+# 	{ mime = "image/{avif,hei?,jxl}", run = "magick" },
+# 	{ mime = "image/svg+xml", run = "svg" },
+# 	{ mime = "image/*", run = "image" },
+# 	# Video
+# 	{ mime = "video/*", run = "video" },
+# 	# PDF
+# 	{ mime = "application/pdf", run = "pdf" },
+# 	# Font
+# 	{ mime = "font/*", run = "font" },
+# 	{ mime = "application/ms-opentype", run = "font" },
+# ]
+# previewers = [
+# 	{ mime = "inode/directory", run = "folder" },
+# 	# Code
+# 	{ mime = "text/*", run = "code" },
+# 	{ mime = "application/{mbox,javascript,wine-extension-ini}", run = "code" },
+# 	# JSON
+# 	{ mime = "application/{json,ndjson}", run = "json" },
+# 	# Image
+# 	{ mime = "image/{avif,hei?,jxl}", run = "magick" },
+# 	{ mime = "image/svg+xml", run = "svg" },
+# 	{ mime = "image/*", run = "image" },
+# 	# Video
+# 	{ mime = "video/*", run = "video" },
+# 	# PDF
+# 	{ mime = "application/pdf", run = "pdf" },
+# 	# Archive
+# 	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", run = "archive" },
+# 	{ mime = "application/{debian*-package,redhat-package-manager,rpm,android.package-archive}", run = "archive" },
+# 	{ mime = "application/x-executable", run = "archive" },
+# 	# Virtual Disk / Disk Image
+# 	{ mime = "application/{iso9660-image,qemu-disk,ms-wim,apple-diskimage}", run = "archive" },
+# 	{ mime = "application/virtualbox-{vhd,vhdx}", run = "archive" },
+# 	# { name = "*.{img,fat,ext,ext2,ext3,ext4,squashfs,ntfs,hfs,hfsx}", run = "archive" },
+# 	# Font
+# 	{ mime = "font/*", run = "font" },
+# 	{ mime = "application/ms-opentype", run = "font" },
+# 	# Empty file
+# 	{ mime = "inode/empty", run = "empty" },
+# 	# Fallback
+# 	# { name = "*", run = "file" },
+# ]
+
+[input]
+cursor_blink = false
+
+# cd
+cd_title = "Change directory:"
+cd_origin = "top-center"
+cd_offset = [0, 2, 50, 3]
+
+# create
+create_title = ["Create:", "Create (dir):"]
+create_origin = "top-center"
+create_offset = [0, 2, 50, 3]
+
+# rename
+rename_title = "Rename:"
+rename_origin = "hovered"
+rename_offset = [0, 1, 50, 3]
+
+# filter
+filter_title = "Filter:"
+filter_origin = "top-center"
+filter_offset = [0, 2, 50, 3]
+
+# find
+find_title = ["Find next:", "Find previous:"]
+find_origin = "top-center"
+find_offset = [0, 2, 50, 3]
+
+# search
+search_title = "Search via {n}:"
+search_origin = "top-center"
+search_offset = [0, 2, 50, 3]
+
+# shell
+shell_title = ["Shell:", "Shell (block):"]
+shell_origin = "top-center"
+shell_offset = [0, 2, 50, 3]
+
+[confirm]
+# trash
+trash_title = "Trash {n} selected file{s}?"
+trash_origin = "center"
+trash_offset = [0, 0, 70, 20]
+
+# delete
+delete_title = "Permanently delete {n} selected file{s}?"
+delete_origin = "center"
+delete_offset = [0, 0, 70, 20]
+
+# overwrite
+overwrite_title = "Overwrite file?"
+# overwrite_content = "Will overwrite the following file:"
+overwrite_origin = "center"
+overwrite_offset = [0, 0, 50, 15]
+
+# quit
+quit_title = "Quit?"
+# quit_content = "The following tasks are still running, are you sure you want to quit?"
+quit_origin = "center"
+quit_offset = [0, 0, 50, 15]
+
+[pick]
+open_title = "Open with:"
+open_origin = "hovered"
+open_offset = [0, 1, 50, 7]
+
+[which]
+sort_by = "none"
+sort_sensitive = false
+sort_reverse = false
+sort_translit = false

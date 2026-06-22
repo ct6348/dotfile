@@ -1,0 +1,274 @@
+* {
+    font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 19px;
+}
+
+window#waybar {
+    background: rgba(40, 42, 54, 0.75);
+    border-bottom: 3px solid rgba(100, 114, 125, 0.5);
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+window#waybar.termite {
+    background-color: #3F3F3F;
+}
+
+window#waybar.chromium {
+    background-color: #000000;
+    border: none;
+}
+
+/* ── Workspaces ── */
+#workspaces {
+    padding: 0;
+    margin: 0;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    background-color: transparent;
+    color: #ffffff;
+    box-shadow: inset 0 -3px transparent;
+    border: none;
+    border-radius: 0;
+}
+
+#workspaces button:hover {
+    background-color: rgba(49, 50, 68, 0.6);
+}
+
+#workspaces button.active {
+    background-color: rgba(88, 91, 112, 0.6);
+}
+
+#workspaces button.urgent {
+    background-color: #eb4d4b;
+}
+
+/* ── Taskbar ── */
+#taskbar {
+    padding: 0px;
+    margin: 0 10px;
+}
+
+#taskbar.empty {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+#taskbar button {
+    padding-left: 8px;
+    min-width: 22px;
+    background: transparent;
+    color: #ffffff;
+}
+
+#taskbar button:hover {
+    background-color: rgba(49, 50, 68, 0.6);
+}
+
+#taskbar button.active {
+    background-color: rgba(88, 91, 112, 0.6);
+}
+
+#taskbar button.active:hover {
+    background-color: rgba(108, 112, 134, 0.6);
+}
+
+/* ── 模式 ── */
+#mode {
+    background-color: #64727D;
+    border-bottom: 3px solid #ffffff;
+}
+
+/* ── 模块通用间距 ── */
+#clock {
+    min-width: 100px;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#bluetooth,
+#custom-media,
+#tray,
+#mode,
+#custom-notification,
+#custom-power,
+#idle_inhibitor,
+#mpd {
+    padding: 0 8px;
+    color: #ffffff;
+}
+
+#window,
+#workspaces {
+    margin: 0 4px;
+}
+
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 0;
+}
+
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 0;
+}
+
+/* ── 电池 ── */
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+/* ── 亮度 ── */
+#backlight {
+    background-color: #90b1b1;
+}
+
+/* ── 温度 ── */
+#temperature {
+    background-color: #f0932b;
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+}
+
+/* ── 网络 ── */
+#network.disconnected {
+    background-color: #f53c3c;
+}
+
+/* ── CPU／内存／磁盘 ── */
+#cpu {
+    min-width: 30px;
+}
+
+/* ── 蓝牙 ── */
+#bluetooth.on {
+    color: #00ff00;
+}
+
+/* ── 音频 ── */
+#pulseaudio.muted {
+    color: #888;
+}
+
+#wireplumber.muted {
+    color: #888;
+}
+
+/* ── 自定义媒体 ── */
+#custom-media {
+    background-color: #66cc99;
+    color: #2a5c45;
+    min-width: 100px;
+}
+
+#custom-media.custom-spotify {
+    background-color: #66cc99;
+}
+
+#custom-media.custom-vlc {
+    background-color: #ffa000;
+}
+
+/* ── 外观定制 ── */
+#custom-power {
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+/* ── 系统托盘 ── */
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #eb4d4b;
+}
+
+/* ── 通知 ── */
+#custom-notification {
+    min-width: 16px;
+}
+
+/* ── 其他 ── */
+label:focus {
+    background-color: #000000;
+}
+
+#idle_inhibitor {
+    background-color: #2d3436;
+}
+
+#idle_inhibitor.activated {
+    background-color: #ecf0f1;
+    color: #2d3436;
+}
+
+#mpd {
+    background-color: #66cc99;
+    color: #2a5c45;
+}
+
+#mpd.disconnected {
+    background-color: #f53c3c;
+}
+
+#mpd.stopped {
+    background-color: #90b1b1;
+}
+
+#mpd.paused {
+    background-color: #51a37a;
+}
+
+#language {
+    background: #00b093;
+    color: #740864;
+    padding: 0 5px;
+    margin: 0 5px;
+    min-width: 16px;
+}
+
+#keyboard-state {
+    background: #97e1ad;
+    color: #000000;
+    padding: 0 0px;
+    margin: 0 5px;
+    min-width: 16px;
+}
+
+#keyboard-state > label {
+    padding: 0 5px;
+}
+
+#keyboard-state > label.locked {
+    background: rgba(0, 0, 0, 0.2);
+}

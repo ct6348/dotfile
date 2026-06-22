@@ -1,0 +1,117 @@
+#!/usr/bin/env zsh
+
+# local start_time=$(date +%s.%N 2>/dev/null || date +%s)
+
+export XDG_USER_DIRS=$HOME/data
+# china terminal
+# export LANG=zh_CN.UTF-8
+# setopt no_global_rcs no_beep auto_cd auto_pushd pushd_ignore_dups
+# setopt correct extended_glob numeric_glob_sort rc_expand_param
+
+#-----------------------------------------
+# 初始化全局环境变量
+#-----------------------------------------
+# export MY_CONFIG_HOME="${MY_CONFIG_HOME:-${HOME}/.config}"
+export MY_CONFIG_HOME="$HOME/.config"
+source ${MY_CONFIG_HOME}/zsh/env.zsh
+
+
+# has() { command -v "$1" >/dev/null 2>&1; }
+
+# eval_if_installed() { has "$1" && eval "$@"; }
+# source_if_exists() { [[ -f "$1" ]] && source "$1"; }
+
+#-----------------------------------------
+# 初始化 zinit 
+#-----------------------------------------
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+install_zinit() {
+    # [[ -L "${HOME}/.zshrc" ]] || ln -sf "${MY_CONFIG_HOME}/zsh/zshrc" "${HOME}/.zshrc"
+    # [[ -L "${HOME}/.gitconfig" ]] || ln -sf "${MY_CONFIG_HOME}/ini/.gitconfig" "${HOME}/.gitconfig"
+
+    ln -sf "${MY_CONFIG_HOME}/zsh/zshrc" "${HOME}/.zshrc"
+    ln -sf "${MY_CONFIG_HOME}/ini/.gitconfig" "${HOME}/.gitconfig"
+    ln -sf /data "${HOME}/data"
+    
+    [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+    [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+    source "${ZINIT_HOME}/zinit.zsh" && reload_zsh
+}
+
+source "${ZINIT_HOME}/zinit.zsh"
+
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+# <<<<<<<<<<<<<< 🚀 reload Zinit
+
+#-----------------------------------------
+# 初始化 alias
+#-----------------------------------------
+# local config_modules=("theme" "plugins" "alias" "env" "fzf_fd_rg" "history" "lazy" "autoload")
+# for module in $config_modules; do
+#     # echo "====== lazy load ${module} ======"
+#     source "${MY_CONFIG_HOME}/zsh/config/${module}.zsh"
+# done
+source ${MY_CONFIG_HOME}/zsh/theme.zsh
+source ${MY_CONFIG_HOME}/zsh/plugins.zsh
+source ${MY_CONFIG_HOME}/zsh/history.zsh
+source ${MY_CONFIG_HOME}/zsh/base.zsh
+source ${MY_CONFIG_HOME}/zsh/vii_file.zsh
+source ${MY_CONFIG_HOME}/zsh/search.zsh
+source ${MY_CONFIG_HOME}/zsh/svn.zsh
+source ${MY_CONFIG_HOME}/zsh/lxc.zsh
+source ${MY_CONFIG_HOME}/zsh/remote.zsh
+source ${MY_CONFIG_HOME}/zsh/fonts.zsh
+# source ${MY_CONFIG_HOME}/zsh/lsp.zsh
+# source ${MY_CONFIG_HOME}/zsh/vim_mode.zsh
+source ${MY_CONFIG_HOME}/zsh/web_search.zsh
+
+#-----------------------------------------
+# 🌟 print load time...
+#----------------------------------------- 
+
+# show load time
+# echo "📝 usage 'reload_zsh' reload zsh"
+# echo "🔍 usage 'zsh_benchmark' to test"
+# echo "🎨 usage 'switch_theme <theme>' to switch theme"
+
+# cowsay "伟大，无需多言👍" | lolcat
+#
+# local end_time=$(date +%s.%N 2>/dev/null || date +%s)
+# local load_time
+# # 统一使用 awk 计算时间差（兼容无 bc 情况）
+# if awk -v end="$end_time" -v start="$start_time" 'BEGIN {exit !(end >= start)}'; then
+#     load_time=$(awk -v end="$end_time" -v start="$start_time" 'BEGIN {printf "%.6f\n", end - start}' 2>/dev/null || echo "Unknown")
+# else
+#     load_time="Unknown (Negative time)"
+# fi
+# echo "🚀 ZSH load time: ${load_time}s" | lolcat
+
+#-----------------------------------------
+# 重载配置文件20次用时测试
+#----------------------------------------- 
+# zsh_benchmark() {
+#     local count=${1:-20}
+#
+#     local timings=()
+#     for i in {1..$count}; do
+#         local start=$(date +%s.%N)
+#         zsh -i -c exit >/dev/null 2>&1
+#         local end=$(date +%s.%N)
+#         local elapsed=$(echo "$end - $start" | bc -l)
+#         timings+=($elapsed)
+#         printf "test %d: %.9f s\n" $i $elapsed
+#     done
+#
+#     if [ ${#timings[@]} -gt 0 ]; then
+#         local sum=$(printf "%s\n" "${timings[@]}" | awk '{sum += $1} END {printf "%.9f", sum}')
+#         local average=$(echo "$sum / ${#timings[@]}" | bc -l)
+#         printf "test time is: %.9f s\n" $average
+#     else
+#         echo "error..."
+#     fi
+# }
+
+
+# bindkey -v # 默认就是 vim model
+eval "$(navi widget zsh)" # 命令帮助手册

@@ -1,0 +1,430 @@
+prefer-no-csd // 用于控制窗口是否优先使用‌服务端装饰（SSD）‌ 而非‌客户端装饰（CSD）
+screenshot-path "/data/main/myhome/Pictures/screenshots from %Y-%m-%d %H-%M-%S.png"
+
+environment {
+   QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+   ELECTRON_OZONE_PLATFORM_HINT "auto"
+}
+
+cursor {
+    xcursor-theme "Adwaita"
+    xcursor-size 28 // Based on scale 1.28
+    hide-when-typing
+}
+
+
+overview {
+  zoom 0.50
+}
+
+xwayland-satellite { // 无需root权限xwayland运行
+    path "xwayland-satellite"
+}
+
+input {
+    keyboard {
+        xkb {
+            layout "gb"
+        }
+        numlock // Enable numlock on startup
+    }
+
+    touchpad {
+        // off
+        tap
+        dwt
+        dwtp
+        natural-scroll
+        accel-speed 0.42
+    }
+}
+
+output "eDP-1" {
+    // mode "1920x1200@60.003" // Set resolution and refresh rate
+    mode "1920x1200"
+    scale 1.25 // No scaling (use 2 for HiDPI)
+    position x=0 y=0
+    focus-at-startup  // 打开时自动聚焦
+    variable-refresh-rate // 当前显示器启用可变刷新率【若支持】，当前屏幕支持 40 ～ 60 HZ
+}
+
+
+recent-windows {
+    // Pre-select the "Output" scope when switching windows.
+    binds {
+        Mod+Tab                      { next-window     scope="output"; }
+        Mod+Shift+Tab                { previous-window scope="output"; }
+        Mod+bracketright             { next-window     scope="output" filter="app-id"; }
+        Mod+bracketleft              { previous-window scope="output" filter="app-id"; }
+    }
+}
+
+binds {
+
+    // -----------------------------------------------------
+    // ─── Exit / Power ───
+    // -----------------------------------------------------
+    // 关闭窗口
+    Mod+Q                              hotkey-overlay-title="关闭窗口" repeat=false { close-window; }
+    CTRL+ALT+DELETE                    hotkey-overlay-title="退出niri" { quit; } // Also quits Niri
+    // MOD+SHIFT+P                        hotkey-overlay-title="关闭屏幕" { power-off-monitors; } // 关闭屏幕输出
+    // MOD+ESCAPE                          hotkey-overlay-title="查看快捷键" { show-hotkey-overlay; }
+
+    // -----------------------------------------------------
+    // 自定义脚本
+    // -----------------------------------------------------
+    // 屏幕镜像，或者 [-b screencopy] 参数
+    // Mod+P repeat=false                  hotkey-overlay-title="外接显示屏/镜像模式" { spawn-sh "wl-mirror -b screencopy-dmabuf $(niri msg --json focused-output | jq -r .name)"; }
+    // Mod+Ctrl+P repeat=false             hotkey-overlay-title="外接显示屏/镜像模式" { spawn-sh "wl-mirror $(slurp)"; }
+    // 扩展屏模式
+    // Mod+Ctrl+P                          hotkey-overlay-title="外接显示屏/扩展模式" { spawn "~/.config/niri/ext-mode.sh"; }
+
+    // -----------------------------------------------------
+    // 应用管理
+    // -----------------------------------------------------
+    MOD+B                               hotkey-overlay-title="打开浏览器 firefox" { spawn-sh "/usr/bin/firefox"; }
+    MOD+RETURN                          hotkey-overlay-title="下拉式终端alacritty" { spawn-sh "alacritty"; }
+    MOD+SLASH                           hotkey-overlay-title="内嵌打开终端 alacritty" { spawn "/usr/bin/alacritty" "-T" "inner-embed"; }
+    // Mod+Grave                           { spawn "~/.config/niri/toggle-dropdown.sh"; }
+    // MOD+SPACE                           hotkey-overlay-title="运行wofi应用" { spawn-sh "wofi"; }
+    Mod+A                               hotkey-overlay-title="启动应用fuzzel" { spawn "/usr/bin/fuzzel" "toggle"; }
+    // MOD+z                               hotkey-overlay-title="悬浮打开: zed" { spawn-sh "/usr/bin/zeditor"; }
+    // MOD+ALT+L                           hotkey-overlay-title="锁屏: swaylock" { spawn-sh "swaylock"; }
+    Mod+Shift+C                         hotkey-overlay-title="重启waybar" { spawn-sh "pkill waybar && waybar"; }
+    // Mod+ALT+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "/usr/bin/swaylock" "-f" "-i" "~/.config/swaylock/lock.png"; }
+    Mod+i                               hotkey-overlay-title="打开JetBrains idea" { spawn-sh "/data/main/software/JetBrains/idea/bin/idea"; }  // idea
+    // Mod+D hotkey-overlay-title="同步切换obs和mpv状态" { spawn "/usr/bin/touch" "/tmp/obs_mpv_toggle_pause"; }
+    // 显示输入的按键字符
+    Mod+ALT+K                          hotkey-overlay-title="按键可视化" { spawn "/usr/bin/wshowkeys" "-a" "right" "-a" "bottom" "-F" "ComicShannsMono Nerd Font 30"; }
+    // Mod+Shift+K                         hotkey-overlay-title="关闭screenkey" { spawn "/usr/bin/killall" "wshowkeys"; }
+    // MOD+ALT+J                           hotkey-overlay-title="截图" { spawn-sh "grim -g \"$(slurp)\" - | satty --filename - -o \"/home/chent/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png\""; }
+    // MOD+CTRL+f9                          hotkey-overlay-title="截图并保存" { spawn-sh "grim -g \"$(slurp)\" - | wl-copy"; }
+    MOD+SHIFT+f9                         hotkey-overlay-title="截图-satty" { spawn-sh "grim -g \"$(slurp)\" - | satty --filename - -o \"/data/main/projectfile/package/windows/screenshot-$(date +%Y%m%d-%H%M%S).png\""; }
+    MOD+ALT+f9                           hotkey-overlay-title="长截图" { spawn "/usr/bin/wayscrollshot"; }
+
+    // Please choose your own file manager
+    MOD+E                               hotkey-overlay-title="文件管理" { spawn-sh "nautilus"; }
+    MOD+SHIFT+E                         hotkey-overlay-title="文件管理终端" { spawn "/usr/bin/ghostty" "-e" "/usr/bin/yazi"; }
+
+    // -----------------------------------------------------
+    //  PERIOD=. semicolon=; apostrophe=' SLASH=/ COMMA=, bracketleft=[, bracketright=] 
+    // -----------------------------------------------------
+    // Mod+semicolon                       hotkey-overlay-title="打开历史剪切板" { spawn "/usr/bin/vicinae" "vicinae://extensions/vicinae/clipboard/history"; }
+    MOD+PERIOD                           hotkey-overlay-title="用alacritty打开zellij" { spawn-sh "~/.config/niri/alacritty-dropdown.sh"; }
+    MOD+SHIFT+RETURN                    hotkey-overlay-title="打开终端ghostty" { spawn-sh "/usr/bin/ghostty"; }
+
+
+    // -----------------------------------------------------
+    // ─── Audio Controls ───
+    // -----------------------------------------------------
+    // Example volume keys mappings for PipeWire & WirePlumber.
+    // The allow-when-locked=true property makes them work even when the session is locked.
+    XF86AudioRaiseVolume                allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"; }
+    XF86AudioLowerVolume                allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
+    XF86AudioMute                       allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioMicMute                    allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    XF86AudioNext                       allow-when-locked=true { spawn-sh "playerctl next"; }
+    XF86AudioPause                      allow-when-locked=true { spawn-sh "playerctl play-pause"; }
+    XF86AudioPlay                       allow-when-locked=true { spawn-sh "playerctl play-pause"; }
+    XF86AudioPrev                       allow-when-locked=true { spawn-sh "playerctl previous"; }
+
+    // -----------------------------------------------------
+    // 列和tab视图
+    // -----------------------------------------------------
+    MOD+W                               hotkey-overlay-title="切换到tab视图" { toggle-column-tabbed-display; }
+    Mod+Y                               hotkey-overlay-title="添加右边的窗口到当前列" { consume-window-into-column; }
+    Mod+Shift+Y                         hotkey-overlay-title="删除当前列最下面的窗口" { expel-window-from-column; }
+    MOD+U                               hotkey-overlay-title="窗体滑铲式" {consume-or-expel-window-right;}
+    MOD+SHIFT+U                         hotkey-overlay-title="窗体反向滑铲式" {consume-or-expel-window-left;}
+
+    // -----------------------------------------------------
+    // 焦点
+    // -----------------------------------------------------
+    
+    MOD+H                               hotkey-overlay-title="聚焦左边列" { focus-column-left; }
+    MOD+LEFT                            hotkey-overlay-title="聚焦左边或显示器左边列" { focus-column-or-monitor-left; }
+
+    MOD+L                               hotkey-overlay-title="聚焦右边列" { focus-column-right; }
+    MOD+RIGHT                           hotkey-overlay-title="聚焦右边或显示器右边列" { focus-column-or-monitor-right; }
+
+    MOD+HOME                            hotkey-overlay-title="聚焦最前一列" { focus-column-first; }
+    MOD+END                             hotkey-overlay-title="聚焦最后一列" { focus-column-last; }
+    
+    MOD+K                               hotkey-overlay-title="聚焦上边窗口" { focus-window-up; }
+    MOD+UP                              hotkey-overlay-title="聚焦上边或工作区上边窗口" { focus-window-or-workspace-up; }
+    MOD+J                               hotkey-overlay-title="聚焦下边窗口" { focus-window-down; }
+    MOD+DOWN                            hotkey-overlay-title="聚焦下边或工作区下边窗口" { focus-window-or-monitor-down; }
+    MOD+CTRL+TAB                        hotkey-overlay-title="聚焦前一个工作区" { focus-workspace-previous; }
+
+    Mod+shift+j                         hotkey-overlay-title="聚焦下边工作区" { focus-workspace-down; }
+    Mod+Page_Down                       hotkey-overlay-title="聚焦下边工作区" { focus-workspace-down; }
+    MOD+WHEELSCROLLDOWN                 hotkey-overlay-title="聚焦下边工作区" cooldown-ms=150 { focus-workspace-down; }
+
+    Mod+shift+k                         hotkey-overlay-title="聚焦上边工作区" { focus-workspace-up; }
+    Mod+Page_Up                         hotkey-overlay-title="聚焦下边工作区" { focus-workspace-down; }
+    MOD+WHEELSCROLLUP                   hotkey-overlay-title="聚焦上边工作区" cooldown-ms=150 { focus-workspace-up; }
+
+    MOD+1                               hotkey-overlay-title="聚焦第一个工作区" { focus-workspace 1; }
+    MOD+2                               hotkey-overlay-title="聚焦第二个工作区" { focus-workspace 2; }
+    MOD+3                               hotkey-overlay-title="聚焦第三个工作区" { focus-workspace 3; }
+    MOD+4                               hotkey-overlay-title="聚焦第四个工作区" { focus-workspace 4; }
+    MOD+5                               hotkey-overlay-title="聚焦第五个工作区" { focus-workspace 5; }
+    // MOD+6                               hotkey-overlay-title="聚焦工作区"  { focus-workspace 6; }
+    // MOD+7                               hotkey-overlay-title="聚焦工作区"  { focus-workspace 7; }
+    // MOD+8                               hotkey-overlay-title="聚焦工作区" { focus-workspace 8; }
+    // MOD+9                               hotkey-overlay-title="聚焦工作区" { focus-workspace 9; }
+
+    // 扩展屏
+    MOD+SHIFT+LEFT                      hotkey-overlay-title="聚焦显示器左边" { focus-monitor-left; }
+    MOD+SHIFT+H                         hotkey-overlay-title="聚焦显示器左边" { focus-monitor-left; }
+    MOD+SHIFT+RIGHT                     hotkey-overlay-title="聚焦显示器右边" { focus-monitor-right; }
+    MOD+SHIFT+L                         hotkey-overlay-title="聚焦显示器右边" { focus-monitor-right; }
+    // MOD+SHIFT+K                       hotkey-overlay-title="聚焦显示器上边"  { focus-monitor-up; }
+    // MOD+SHIFT+UP                       hotkey-overlay-title="聚焦显示器上边"  { focus-monitor-up; }
+    // MOD+SHIFT+J                     hotkey-overlay-title="聚焦显示器下边"  { focus-monitor-down; }
+    // MOD+SHIFT+DOWN                     hotkey-overlay-title="聚焦显示器下边"  { focus-monitor-down; }
+
+    // -----------------------------------------------------
+    // 窗口/列移动
+    // -----------------------------------------------------
+    MOD+CTRL+HOME                       hotkey-overlay-title="移动列去最前面" { move-column-to-first; }
+    MOD+CTRL+END                        hotkey-overlay-title="移动列去最后面" { move-column-to-last; }
+
+    MOD+CTRL+H                         hotkey-overlay-title="移动列去左边" { move-column-left; }
+    MOD+CTRL+LEFT                      hotkey-overlay-title="移动列去左边或显示器左边" { move-column-left-or-to-monitor-left; }
+    MOD+CTRL+WHEELSCROLLLEFT           hotkey-overlay-title="移动列去左边" { move-column-left; }
+
+    MOD+CTRL+L                         hotkey-overlay-title="移动列去右边" { move-column-right; }
+    MOD+CTRL+RIGHT                     hotkey-overlay-title="移动列去右边或显示器右边" { move-column-right-or-to-monitor-right;}
+    MOD+CTRL+WHEELSCROLLRIGHT          hotkey-overlay-title="移动列去右边" { move-column-right; }
+
+    MOD+CTRL+K                         hotkey-overlay-title="移动窗口去上边" { move-window-up; }
+    MOD+CTRL+UP                        hotkey-overlay-title="移动窗口去上边或工作区上边" { move-window-up-or-to-workspace-up; }
+    MOD+CTRL+WHEELSCROLLUP             hotkey-overlay-title="移动列去工作区上边" cooldown-ms=150 { move-column-to-workspace-up; }
+    Mod+Ctrl+Page_Up                   hotkey-overlay-title="移动列去工作区上边" { move-column-to-workspace-up; }
+
+    MOD+CTRL+J                         hotkey-overlay-title="移动窗口去下边" { move-window-down; }
+    MOD+CTRL+DOWN                      hotkey-overlay-title="移动窗口去下边或者工作区下边" { move-window-down-or-to-workspace-down; }
+    MOD+CTRL+WHEELSCROLLDOWN           hotkey-overlay-title="移动列去工作区下边" cooldown-ms=150 { move-column-to-workspace-down; }
+    Mod+Ctrl+Page_Down                 hotkey-overlay-title="移动列去工作区下边" { move-column-to-workspace-down; }
+
+    MOD+CTRL+1                         hotkey-overlay-title="移动列去工作区1" { move-column-to-workspace 1; }
+    MOD+CTRL+2                         hotkey-overlay-title="移动列去工作区2" { move-column-to-workspace 2; }
+    MOD+CTRL+3                         hotkey-overlay-title="移动列去工作区3" { move-column-to-workspace 3; }
+    MOD+CTRL+4                         hotkey-overlay-title="移动列去工作区4" { move-column-to-workspace 4; }
+    MOD+CTRL+5                         hotkey-overlay-title="移动列去工作区5" { move-column-to-workspace 5; }
+    // MOD+CTRL+6                         hotkey-overlay-title="移动" { move-column-to-workspace 6; }
+    // MOD+CTRL+7                         hotkey-overlay-title="移动" { move-column-to-workspace 7; }
+    // MOD+CTRL+8                         hotkey-overlay-title="移动" { move-column-to-workspace 8; }
+    // MOD+CTRL+9                         hotkey-overlay-title="移动" { move-column-to-workspace 9; }
+
+    Mod+Shift+Page_Down                hotkey-overlay-title="移动工作区去下边" { move-workspace-down; }
+    Mod+Shift+Page_Up                  hotkey-overlay-title="移动工作区去上边" { move-workspace-up; }
+
+    MOD+SHIFT+CTRL+LEFT                hotkey-overlay-title="移动列去上一个显示器" { move-column-to-monitor-previous; }
+    MOD+SHIFT+CTRL+H                   hotkey-overlay-title="移动列去显示器左边" { move-column-to-monitor-left; }
+    MOD+SHIFT+CTRL+RIGHT               hotkey-overlay-title="移动列去下一个显示器" { move-column-to-monitor-next; }
+    MOD+SHIFT+CTRL+L                   hotkey-overlay-title="移动列去显示器右边" { move-column-to-monitor-right; }
+    MOD+SHIFT+CTRL+DOWN                hotkey-overlay-title="移动列窗口去上一个显示器" { move-window-to-monitor-previous; }
+    MOD+SHIFT+CTRL+J                   hotkey-overlay-title="移动列去显示器下边" { move-column-to-monitor-down; }
+    MOD+SHIFT+CTRL+UP                  hotkey-overlay-title="移动窗口去下一个显示器" { move-window-to-monitor-next; }
+    MOD+SHIFT+CTRL+K                   hotkey-overlay-title="移动列去显示器上边" { move-column-to-monitor-up; }
+    MOD+SHIFT+CTRL+PAGE_UP             hotkey-overlay-title="移动工作区去上一个显示器" { move-workspace-to-monitor-previous; }
+    MOD+SHIFT+CTRL+PAGE_DOWN           hotkey-overlay-title="移动工作区去下一个显示器" { move-workspace-to-monitor-next; }
+
+    // -----------------------------------------------------
+    // 调整窗体大小
+    // -----------------------------------------------------
+    MOD+Z                              hotkey-overlay-title="最大化窗口/禅模式" { fullscreen-window; }
+    MOD+F                              hotkey-overlay-title="最大化窗口到边界" { maximize-window-to-edges; }
+    MOD+CTRL+F                         hotkey-overlay-title="最大化列宽度" { expand-column-to-available-width; }
+    Mod+Ctrl+Shift+F                   hotkey-overlay-title="切换窗口去全屏" { toggle-windowed-fullscreen; }
+    MOD+MINUS                          hotkey-overlay-title="减少列10%" { set-column-width "-10%"; }
+    MOD+EQUAL                          hotkey-overlay-title="增大列10%" { set-column-width "+10%"; }
+    MOD+SHIFT+MINUS                    hotkey-overlay-title="减少窗口高度10%" { set-window-height "-10%"; }
+    MOD+SHIFT+EQUAL                    hotkey-overlay-title="增大窗口高度10%" { set-window-height "+10%"; }
+
+		Mod+ctrl+bracketright                   hotkey-overlay-title="按预设值动态改变列宽度" { switch-preset-column-width; }
+		Mod+ctrl+bracketleft                    hotkey-overlay-title="按预设值范围而动态改变窗口高度" { switch-preset-window-height; }
+
+    // -----------------------------------------------------
+    // 悬浮窗体
+    // -----------------------------------------------------
+    MOD+T                              hotkey-overlay-title="切换窗口悬浮" { toggle-window-floating; }
+    Mod+SHIFT+T                        hotkey-overlay-title="在悬浮窗口和堆叠窗口之间切换焦点" { switch-focus-between-floating-and-tiling; }
+
+    // -----------------------------------------------------
+    // 布局
+    // -----------------------------------------------------
+    // MOD+C                               { center-column; }
+    MOD+O                              hotkey-overlay-title="概览模式" repeat=false { toggle-overview; }
+    MOD+CTRL+C                         hotkey-overlay-title="列居中显示" { center-visible-columns; }
+
+    // -----------------------------------------------------
+    // 手动解除应用程序对系统全局快捷键的“接管”状态（针对虚拟机软件可能需要键盘控制权。allow-inhibiting=false 忽略当前快捷键本身）
+    // -----------------------------------------------------
+    MOD+SHIFT+ESCAPE                  hotkey-overlay-title="解除应用对快捷键的接管" allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+
+    // -----------------------------------------------------
+    // 录屏
+    // -----------------------------------------------------
+    // CTRL+SHIFT+1                        { screenshot; }
+    // CTRL+SHIFT+2                        { screenshot-screen; }
+    // Ctrl+Print                          { screenshot-screen; }
+    // CTRL+SHIFT+3                        { screenshot-window; }
+    // Alt+Shift+4                         { spawn "flameshot" "gui"; }
+    // Shift+Print                         { spawn "flameshot" "gui"; }
+    // Print                               { screenshot show-pointer=false; }
+    // ctrl+Shift+5                        { screenshot show-pointer=false; }
+    // Alt+Print                           { screenshot-window write-to-disk=true; }
+    // CTRL+SHIFT+6                        { screenshot-window write-to-disk=true; }
+}
+
+// ────────────── Startup Applications ──────────────
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Miscellaneous#spawn-sh-at-startup
+
+// spawn-at-startup "/usr/bin/swww-daemon" // Wallpaper daemon
+// spawn-at-startup "/usr/bin/swww" "img" "~/data/Pictures/02.png" // Set wallpaper
+spawn-sh-at-startup "waybar -c $HOME/.config/waybar-themes/catppuccin/config.jsonc -s $HOME/.config/waybar-themes/catppuccin/style.css"
+spawn-sh-at-startup "swaybg -i $HOME/.config/sway/default.png -m fill & disown"
+spawn-at-startup "/usr/bin/fcitx5"
+// 身份认证 GUI 弹窗
+spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+
+
+// ────────────── Animation Settings ──────────────
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Animations
+animations {
+    workspace-switch {
+        spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
+    }
+    window-open {
+        duration-ms 200
+        // curve "ease-out-quad"
+        // curve "ease-out-cubic"
+        curve "linear"
+        // curve "cubic-bezier" 0.05 0.7 0.1 1
+    }
+    window-close {
+        duration-ms 600
+        curve "ease-out-cubic"
+    }
+    horizontal-view-movement {
+        spring damping-ratio=1.0 stiffness=900 epsilon=0.0001
+    }
+    window-movement {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+        }
+    window-resize {
+        spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
+    }
+    config-notification-open-close {
+        spring damping-ratio=0.6 stiffness=1200 epsilon=0.001
+    }
+    screenshot-ui-open {
+        duration-ms 300
+        curve "ease-out-quad"
+    }
+    overview-open-close {
+        spring damping-ratio=1.0 stiffness=900 epsilon=0.0001
+    }
+}
+
+// ────────────── Window Rules ──────────────
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Window-Rules
+
+// 定义所有窗口样式
+// window-rule {
+//   geometry-corner-radius 5
+//
+//   clip-to-geometry false
+// }
+
+// 定义打开就全屏的应用好
+window-rule {
+    match app-id="firefox"
+    match app-id="CherryStudio"
+    // match app-id="brave"
+    match app-id="com.mitchellh.ghostty"
+    // open-on-workspace "1:worka"
+    match app-id="com.lite_xl.LiteXL"
+    match app-id="jetbrains-idea"
+    match app-id="com.freerdp.client.sdl3"
+    match app-id="Reasonix"
+    match app-id="obsidian"
+    match app-id="org.gnome.Nautilus"
+    open-focused true
+    open-floating false // Always float Firefox PiP windows
+    // open-maximized true  // 四周有一点空隙()
+    open-maximized-to-edges true // 四周无空隙
+    opacity 0.9
+}
+
+window-rule {
+  match app-id="chromium"
+  open-focused true
+  open-floating false // Always float Firefox PiP windows
+  opacity 0.9
+}
+
+
+window-rule {
+    match app-id="virt-manager"
+    // 全屏时保持原始大小，让应用自己处理
+    // fullscreen-mode "simple"
+    // 或者禁用自动缩放
+    open-fullscreen true
+}
+
+window-rule {
+  // 匹配脚本中定义的 app-id
+    match app-id="alacritty-dropdown"
+    
+    // 核心配置：设为浮动，不参与平铺逻辑
+    open-floating true
+    
+    match title="inner-embed"
+    
+    default-floating-position x=0 y=0 relative-to="top"
+    opacity 0.60
+    default-column-width { proportion 1.0; }
+    default-window-height { proportion 0.50; }
+}
+// ────────────── Layout Settings ──────────────
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Layout
+
+layout {
+    gaps 5 // Gap between windows
+    center-focused-column "never" // Don’t auto-center focused column
+
+    preset-column-widths {
+        proportion 0.5
+        proportion 0.75
+        proportion 1.0
+        proportion 0.25
+    }
+
+    preset-window-heights {
+        proportion 0.5
+        proportion 0.75
+        proportion 1.0
+        proportion 0.25
+    }
+    
+
+    default-column-width { proportion 0.5; } // 0.5是默认值，半个屏幕宽度
+
+    focus-ring {
+        width 3
+        active-color "#7D5FFF"
+        inactive-color "#505050"
+    }
+
+    struts {}
+
+}
+
+
+hotkey-overlay {
+    skip-at-startup
+}

@@ -1,0 +1,140 @@
+// ============================================================
+// Waybar v0.15.0 — Catppuccin Mocha 现代简约主题
+// 字体: Maple Mono NF CN  字号: 11px（紧凑）
+// 特点: 紧凑布局，模块集中在右侧，无左侧模块
+// 依赖: waybar, mako, pamixer, networkmanager, brightnessctl
+// ============================================================
+{
+    "layer": "top",
+    // "position": "top",
+    "height": 36,
+    "margin-top": 0,
+    "margin-left": 2,
+    "margin-right": 2,
+    "spacing": 2,
+
+    // "modules-left": ["ext/workspaces", "wlr/taskbar", "dwl/window"], # dwl/window 获取激活窗口的标题信息
+    "modules-left": ["ext/workspaces", "wlr/taskbar"], // niri 不支持 dwl/window
+    "modules-center": ["tray"],
+    "modules-right": [
+        "network",
+        "pulseaudio",
+        "backlight",
+        "cpu",
+        "memory",
+        "battery",
+        "clock",
+        "custom/notification",
+        "custom/power"
+    ],
+
+    // ---------- 工作区 ----------
+    "ext/workspaces": {
+        "format": "{name}"
+    },
+
+    // ---------- 任务栏 ----------
+    "wlr/taskbar": {
+        "format": "{icon}  {name}",
+        "icon-size": 14,
+        "tooltip-format": "{title}",
+        "on-click": "activate"
+    },
+
+    // ---------- 窗口标题 ----------
+    "dwl/window": {
+        "format": "{}  ",
+        "max-length": 36,
+        "tooltip-format": "窗口: {title}"
+    },
+
+    // ---------- 系统托盘 ----------
+    "tray": {
+        "icon-size": 14,
+        "spacing": 4
+    },
+
+    // ---------- 网络 ----------
+    "network": {
+        "interval": 3,
+        "format-wifi": "󰤨 {signalStrength}%",
+        "format-ethernet": "󰀂",
+        "format-disconnected": "󰤭",
+        "tooltip-format": "网络: {ifname}\nIP: {ipaddr}/{cidr}"
+    },
+
+    // ---------- 音频 ----------
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "",
+        "tooltip-format": "音频: {volume}%",
+        "on-click": "pamixer -t",
+        "on-scroll-up": "pamixer -i 5",
+        "on-scroll-down": "pamixer -d 5",
+        "format-icons": {
+            "default": ["", "", ""]
+        }
+    },
+
+    // ---------- 屏幕亮度 ----------
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "format-icons": ["󰖔", "󰖨"],
+        "tooltip-format": "亮度: {percent}%",
+        "on-scroll-up": "brightnessctl s +5%",
+        "on-scroll-down": "brightnessctl s 5%-"
+    },
+
+    // ---------- CPU ----------
+    "cpu": {
+        "interval": 3,
+        "format": "󰻠 {usage}%",
+        "tooltip-format": "CPU: {usage}%"
+    },
+
+    // ---------- 内存 ----------
+    "memory": {
+        "interval": 5,
+        "format": " {percentage}%",
+        "tooltip-format": "内存: {percentage}%\n已用: {used}/{total}"
+    },
+
+    // ---------- 电池 ----------
+    "battery": {
+        "states": {
+            "warning": 20,
+            "critical": 10
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-discharging": "{icon} {capacity}%",
+        "tooltip-format": "电池: {capacity}%",
+        "format-icons": ["", "", "", "", ""]
+    },
+
+    // ---------- 时钟 ----------
+    "clock": {
+        "interval": 1,
+        "format": "{:%a %m/%d}",
+        "format-alt": "{:%H:%M}",
+        "tooltip-format": "时钟: {:%Y-%m-%d %H:%M:%S %A}",
+    },
+
+    // ---------- 通知 ----------
+    "custom/notification": {
+        "exec-if": "command -v makoctl",
+        "exec": "makoctl list 2>/dev/null | grep -q data && echo '{\"text\":\" \",\"class\":\"notification\"}' || echo '{\"text\":\" \",\"class\":\"none\"}'",
+        "return-type": "json",
+        "on-click": "makoctl dismiss -a",
+        "interval": 3
+    },
+
+    // ---------- 电源 ----------
+    "custom/power": {
+        "format": "⏻",
+        "tooltip-format": "电源",
+        "on-click": "bash $HOME/.config/waybar-themes/catppuccin/wlogout/wlogout.sh",
+        "interval": "once"
+    }
+}

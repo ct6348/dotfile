@@ -1,0 +1,23 @@
+default-remote: local
+remotes:
+  aliyun:
+    addr: https://mirrors.aliyun.com/incus-images/
+    protocol: simplestreams
+    public: true
+  tsinghua:
+    addr: https://mirrors.tuna.tsinghua.edu.cn/incus-images/
+    protocol: simplestreams
+    public: true
+  images:
+    addr: https://images.linuxcontainers.org
+    protocol: simplestreams
+    public: true
+  local:
+    addr: unix://
+    protocol: incus
+    public: false
+aliases: {}
+defaults:
+  list_format: ""
+  console_type: ""
+  console_spice_command: ""

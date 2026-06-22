@@ -1,0 +1,72 @@
+# ===
+# === 基本设置
+# ===
+
+# 英文字体(可以使用 CLI 生成有效值列表:ghostty +list-fonts)
+# font-family = "ComicShannsMono Nerd Font"
+font-family = ""
+# 中文字体
+font-family = "Noto Serif Tamil Black","LXGW WenKai Mono Medium"
+# 字体大小
+font-size = 14
+# 自动复制选中文本到系统剪切板
+# copy-on-select = clipboard
+# 输入文本时隐藏鼠标
+mouse-hide-while-typing = true
+# 确认关闭窗口时不显示确认提示
+confirm-close-surface = false
+# 光标轨迹特效相关文件
+custom-shader-animation = false
+# custom-shader = "~/.config/ghostty/shaders/cursor_smear.glsl"
+window-vsync = false
+mouse-scroll-multiplier = 1
+
+# ===
+# === 主题
+# ===
+
+theme = Ayu
+# palette = 0=#000000
+# palette = 1=#ff5555
+# palette = 2=#50fa7b
+# palette = 3=#f1fa8c
+# palette = 4=#bd93f9
+# palette = 5=#ff79c6
+# palette = 6=#8be9fd
+# palette = 7=#bbbbbb
+# palette = 8=#44475a
+# palette = 9=#ff5555
+# palette = 10=#50fa7b
+# palette = 11=#f1fa8c
+# palette = 12=#bd93f9
+# palette = 13=#ff79c6
+# palette = 14=#8be9fd
+# palette = 15=#ffffff
+# foreground = f8f8f2
+# background = 282a36
+background-opacity = 0.90
+background-blur = true
+window-decoration = false
+
+# ===
+# === 按键绑定
+# ===
+
+# 上下翻页
+keybind = ctrl+j=scroll_page_up
+keybind = ctrl+k=scroll_page_down
+keybind = page_up=scroll_page_up
+keybind = page_down=scroll_page_down
+
+# 拆分屏幕
+keybind = ctrl+shift+minus=new_split:down
+keybind = ctrl+plus=new_split:right
+keybind = ctrl+shift+j=resize_split:down,25
+keybind = ctrl+shift+k=resize_split:up,25
+keybind = ctrl+shift+h=resize_split:left,25
+keybind = ctrl+shift+l=resize_split:right,25
+
+keybind = alt+j=goto_split:down
+keybind = alt+k=goto_split:up
+keybind = alt+h=goto_split:left
+keybind = alt+l=goto_split:right
