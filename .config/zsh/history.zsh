@@ -30,28 +30,26 @@ setopt HIST_VERIFY               # 使用 ! 执行历史命令前先预览，不
 # 优化后的历史命令过滤钩子
 zshaddhistory() {
     local line=${1%%$'\n'}
-    # 使用单词边界匹配，避免误删 zinit 等命令
-    [[ $line =~ "^(ll|l|z|cd|cls|exit|vi|vim|vii)([[:space:]]|$)" ]] && return 1
-    # [[ $line =~ "(password|token|key|secret)" ]] && return 1
+    local cmd=${line%%[[:space:]]*}
+
+    # 纯命令名排除（case 比正则轻量，无编译开销）
+    case "$cmd" in
+        l|ll|z|cd|nv|vi|vii|vim|pwd|hfs|rm|mv|cp|cat|bat|dust|fzf|ls|cls|exit)
+            return 1 ;;
+    esac
+
+    # 带特定参数：只排除 pacman/paru -Ss（搜索），保留 -S 安装等操作
+    [[ "$cmd" == "pacman" && "$line" == *[[:space:]]-[SQ]s* ]] && return 1
+    [[ "$cmd" == "paru"   && "$line" == *[[:space:]]-[SQ]s* ]] && return 1
+
     return 0
 }
 
-# --preview-window='hidden,up:2:wrap' \
-
 __fhs() {
     local selected cmd
-    # 修复 1: 范围从 1 开始
-    # 修复 2: 使用 fzf 的 --with-nth 实现更好的视觉显示和数据提取平衡
-    # selected=$(fc -Dlir 1 | fzf \
-    #     --height=40% \
-    #     --tiebreak=index \
-    #     --header='CTRL-/: 预览, Enter: 选择' \
-    #     --bind "ctrl-/:toggle-preview" \
-    #     --preview='echo {}' \
-    #     --preview-window='up:2:wrap' \
-    #     --no-sort)
+    local -i limit=${1:-500}
 
-    selected=$(fc -Dlir 1 | fzf \
+    selected=$(fc -lir -$limit | fzf \
         --height=40% \
         --tiebreak=index \
         --header='CTRL-/: 预览, Enter: 选择' \
@@ -61,9 +59,10 @@ __fhs() {
 
     if [[ -n "$selected" ]]; then
         echo "------------"
-        # 修复 3: 使用更健壮的正则删除前缀（匹配索引、时长、日期、时间）
-        # 这里的 [0-9: \-]+ 匹配类似 "1234  0:00  2026-02-03 03:00  " 的前缀
-        cmd=$(echo "$selected" | sed -E 's/^[ ]*[0-9]+[ ]+[^ ]+[ ]+[^ ]+[ ]+[^ ]+[ ]+//')
+        cmd="${selected##<-> }"
+        cmd="${cmd#* }"
+        cmd="${cmd#* }"
+        cmd="${cmd#* }"
 
         if [[ -n $WIDGET ]]; then
             LBUFFER="$cmd"
@@ -74,7 +73,6 @@ __fhs() {
         fi
     fi
 }
-
 
 # 注册为 zle widget
 # zle -N __fhs

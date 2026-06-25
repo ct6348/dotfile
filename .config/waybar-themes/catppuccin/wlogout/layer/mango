@@ -20,9 +20,9 @@
 }
 
 {
-    "label" : "reload",
-    "action" : "mmsg reload_config",
-    "text" : "重载配置 mmsg reload_config",
+    "label" : "enter-uefi",
+    "action" : "systemctl reboot --firmware-setup",
+    "text" : "重启并进入BIOS/UEFI界面",
     "keybind" : "r"
 }
 

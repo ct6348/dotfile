@@ -38,11 +38,13 @@ eval "$(mise activate --shims zsh)"
 # ---------------------------------
 # node + npm
 # ---------------------------------
-export PATH=$HOME/.local/bin:$HOME/.npm-global/bin:$PATH
+# export PATH=$HOME/.local/bin:$HOME/.npm-global/bin:$PATH
+export PATH=$HOME/.local/bin:/data/main/lsp/node/npm-global/bin:$PATH
 # ---------------------------------
 # pnpm
 # ---------------------------------
-export PNPM_HOME="/home/chent/.local/share/pnpm"
+# export PNPM_HOME="/home/chent/.local/share/pnpm"
+export PNPM_HOME="/data/main/lsp/node/pnpm/bin"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;

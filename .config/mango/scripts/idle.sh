@@ -3,10 +3,17 @@
 pkill swayidle
 
 # 空闲锁屏（120s调暗 -> 5分钟锁屏 -> 10分钟息屏）
+# swayidle \
+#   timeout 300 'dimland -a 0.6' resume 'pkill dimland' \
+#   timeout 600 'swaylock -f -c 000000' \
+#   timeout 1200 'wlr-dpms off' resume 'wlr-dpms on && bash ~/.config/mango/scripts/restart_wlsunset.sh' \
+#   before-sleep 'swaylock -f -c 000000' \
+#   >/dev/null 2>&1 &
+
 swayidle \
-  timeout 120 'dimland -a 0.6' resume 'pkill dimland' \
-  timeout 300 'swaylock -f -c 000000' \
-  timeout 600 'wlr-dpms off' resume 'wlr-dpms on && bash ~/.config/mango/scripts/restart_wlsunset.sh' \
+  timeout 300 'dimland -a 0.6' resume 'pkill dimland' \
+  timeout 600 'swaylock -f -c 000000' \
+  timeout 1200 'wlr-dpms suspend' resume 'wlr-dpms on' \
   before-sleep 'swaylock -f -c 000000' \
   >/dev/null 2>&1 &
 

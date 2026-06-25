@@ -12,8 +12,8 @@
     "margin-left": 2,
     "margin-right": 2,
     "spacing": 2,
-
-    // "modules-left": ["ext/workspaces", "wlr/taskbar", "dwl/window"], # dwl/window 获取激活窗口的标题信息
+    // dwl/window 获取激活窗口的标题信息
+    // "modules-left": ["ext/workspaces", "wlr/taskbar", "dwl/window"],
     "modules-left": ["ext/workspaces", "wlr/taskbar"], // niri 不支持 dwl/window
     "modules-center": ["tray"],
     "modules-right": [
@@ -35,7 +35,7 @@
 
     // ---------- 任务栏 ----------
     "wlr/taskbar": {
-        "format": "{icon}  {name}",
+        "format": "{icon} {name}",
         "icon-size": 14,
         "tooltip-format": "{title}",
         "on-click": "activate"

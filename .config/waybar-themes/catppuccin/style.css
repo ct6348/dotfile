@@ -115,7 +115,14 @@ window#waybar {
     background: transparent;
     color: @overlay0;
     border: none;
-    border-radius: 0;
+    padding: 0 6px;
+    margin: 1px 0;
+}
+
+#taskbar button.minimized {
+    background: transparent;
+    color: @overlay0;
+    border-bottom: 3px dotted;
     padding: 0 6px;
     margin: 1px 0;
 }
