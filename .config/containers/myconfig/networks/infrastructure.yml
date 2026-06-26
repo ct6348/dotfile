@@ -1,0 +1,25 @@
+# 中央网络定义文件 - 统一维护基础网络拓扑
+# 使用方法: podman-compose -f infrastructure.yml up -d
+
+networks:
+  net-edge:
+    driver: bridge
+    labels:
+      usage: "frontend"
+      managed-by: "myconfig-infra"
+
+  net-infra:
+    driver: bridge
+    labels:
+      usage: "shared-services"
+
+  net-db-private:
+    driver: bridge
+    internal: true # 核心：禁止该网络访问外网
+    labels:
+      security: "isolated"
+
+  net-mgmt:
+    driver: bridge
+    labels:
+      usage: "management"

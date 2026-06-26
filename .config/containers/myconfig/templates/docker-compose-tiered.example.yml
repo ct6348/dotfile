@@ -1,0 +1,45 @@
+# Example Template for Multi-Tier Application
+services:
+  # 1. Edge/Public Proxy
+  gateway:
+    image: nginx:latest
+    networks:
+      - net-edge
+      - net-app-internal
+    ports:
+      - "80:80"
+
+  # 2. Application Core (Communicates with Proxy and DB)
+  app-worker:
+    image: my-app:latest
+    networks:
+      - net-app-internal
+      - net-db-private
+      - net-infra  # Access shared Redis/Auth
+
+  # 3. Database (Isolated - No Internet)
+  database:
+    image: postgres:15
+    networks:
+      - net-db-private
+    environment:
+      POSTGRES_PASSWORD: secret
+
+  # 4. Global Infrastructure (Redis, shared across apps)
+  redis-shared:
+    image: redis:latest
+    networks:
+      - net-infra
+    # Note: This might be managed in a separate shared-infra compose file
+
+networks:
+  # Reference existing networks created by the setup script
+  net-edge:
+    external: true
+  net-infra:
+    external: true
+  net-db-private:
+    external: true
+  # Define app-specific local network
+  net-app-internal:
+    internal: false

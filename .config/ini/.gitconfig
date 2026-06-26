@@ -1,0 +1,43 @@
+[user]
+	name = chent
+	email = 634802993@qq.com
+; [url "https://gitclone.com/github.com/"]
+;[url "https://github.91chifun.workers.dev//https://github.com/"]
+;[url "https://hub.fastgit.org/"]
+;[url "https://github.com.cnpmjs.org/"]
+;[url "https://github.91chifun.workers.dev//https://github.com/"]
+; [url "https://ghproxy.com/https://github.com/"]
+;  insteadOf = https://github.com/
+
+;[core]
+;    pager = delta
+;	autocrlf = false
+
+;[interactive]
+;    diffFilter = delta --color-only
+;
+;[delta]
+;    navigate = true
+;    light = false
+;    side-by-side = true
+;    line-numbers = true
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
+
+[http]
+	sslverify = false
+;	#proxy = socks5://172.25.0.1:7897
+[https]
+	sslverify = false
+;	#proxy = socks5://172.25.0.1:7897
+[credential]
+	helper = store
+[safe]
+	directory = /home/chent/.local/share/nvim/lazy/snacks.nvim
+	directory = /data/main/work/builddata/onlyoffice/env/asdf
+[core]
+	autocrlf = input
