@@ -7,7 +7,6 @@
 set +e
 
 # 壁纸
-# swaybg -i ~/.config/mango/wallpaper/wallpaper.png >/dev/null 2>&1 &
 swaybg -i ~/.config/wallpaper/1363709.png >/dev/null 2>&1 &
 
 # 顶栏

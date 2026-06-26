@@ -41,10 +41,12 @@
 }
 
 window#waybar {
-    background: @base;
+    background: rgba(30, 30, 46, 0.5);  /* 半透明底色，模糊会透出壁纸 */
     color: @text;
-    border-bottom: 1px solid @surface0;
-    padding: 0 2px;
+    border-bottom: none;
+    border-radius: 40px;
+    margin: 6px 8px 0 8px;              /* 让 bar 浮起来，不贴边 */
+    padding: 0 8px;
 }
 
 /* ---------- 模块基础 ---------- */
@@ -64,11 +66,11 @@ window#waybar {
 #clock,
 #custom-notification,
 #custom-power {
-    background: @mantle;
-    border: 1px solid @surface0;
-    border-radius: 0;
-    padding: 0 8px;
-    margin: 1px 1px;
+    background: rgba(24, 24, 37, 0.4);   /* mantle 半透明 */
+    border: 1px solid rgba(49, 50, 68, 0.3);
+    border-radius: 40px;
+    padding: 0 12px;
+    margin: 3px 2px;
     transition: background 0.15s ease, border-color 0.15s ease;
 }
 

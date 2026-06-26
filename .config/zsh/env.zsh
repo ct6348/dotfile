@@ -29,11 +29,11 @@ eval "$(mise activate --shims zsh)"
 # ai
 # ---------------------------------
 # fastflowlm 模型下载路径
-# export FLM_MODEL_PATH=/data/containers/lxcData/ai
+export FLM_MODEL_PATH=/data/containers/lxcData/ai
 # 魔塔 模型下载路径
-# export MODELSCOPE_CACHE=/data/containers/lxcData/ai
-# export HF_ENDPOINT="https://hf-mirror.com"
-# export HF_ENDPOINT="https://huggingface.co"
+export MODELSCOPE_CACHE=/data/containers/lxcData/ai
+export HF_ENDPOINT="https://hf-mirror.com"
+export HF_ENDPOINT="https://huggingface.co"
 
 # ---------------------------------
 # node + npm
@@ -57,7 +57,6 @@ esac
 # lsp
 # ---------------------------------
 # export MAVEN_HOME=/data/main/lsp/java/maven
-#export JAVA_HOME=/home/chent/data/main/lsp/java/jdk/corretto-1.8.0_472
 # export JAVA_HOME=/home/chent/.local/share/mise/installs/java/corretto-8
 # export JRE_HOME=/home/chent/.local/share/mise/installs/java/corretto-8/jre
 # export PATH=$PATH:$JAVA_HOME/bin

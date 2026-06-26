@@ -44,7 +44,7 @@ theme = Ayu
 # palette = 15=#ffffff
 # foreground = f8f8f2
 # background = 282a36
-background-opacity = 0.90
+background-opacity = 0.85
 background-blur = true
 window-decoration = false
 

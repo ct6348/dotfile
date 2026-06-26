@@ -12,7 +12,7 @@ alias vi='nvim -u NONE'
 # 🔥 最接近 vi 纯净模式 — 不加载任何 init.lua、不加载插件、不加载 shada（历史记录）、使用全部默认设置
 alias vnp='nvim --clean'
 # 不加载系统/用户 init 文件，但仍可能加载某些自动加载的脚本
-alias vim='nvim -u NORC'
+# alias vim='nvim -u NORC'
 # alias top='btop'
 alias zl="/usr/bin/zellij"
 alias t8="cd /data/containers/lxcData/ai/claude-code-t8 && bun run desktop"
